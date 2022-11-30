@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Montserrat:wght@400;500;600;700&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" href="/css/fragment.css">
+<title>Admin</title>
+
+<style>
+.nav-link {
+	background-color: #fff;
+	color: #495057;
+}
+
+.nav-link.active {
+	background-color: #f8f9fa !important;
+	font-weight: bold;
+}
+
+.tab-pane.active {
+	display: table;
+}
+</style>
+</head>
+
+<body class="bg-light">
+	<header th:replace="fragment/header :: header-staff"></header>
+	<div style="min-height: calc(100vh - 66px - 199px);">
+		<ul class="nav nav-tabs justify-content-center" role="tablist">
+			<li class="nav-item w-50 text-center"><a class="nav-link active"
+				data-toggle="tab" href="#customers-table">Quản lý khách hàng</a></li>
+			<li class="nav-item w-50 text-center"><a class="nav-link"
+				data-toggle="tab" href="#staffs-table">Quản lý nhân viên</a></li>
+		</ul>
+
+		<div class="container mt-5 tab-content">
+			<table id="customers-table"
+				class="table table-hover bg-white tab-pane active">
+				<thead>
+					<tr>
+						<th>STT</th>
+						<th>Họ tên</th>
+						<th>Email</th>
+						<th>Địa chỉ</th>
+						<th>Số điện thoại</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="user, iterStat : ${listCustomers}">
+						<td th:text="${iterStat.count}"></td>
+						<td th:text="${user.fullname}"></td>
+						<td th:text="${user.email}"></td>
+						<td th:text="${user.address}"></td>
+						<td th:text="${user.phone}"></td>
+					</tr>
+				</tbody>
+			</table>
+			<table id="staffs-table"
+				class="table table-hover bg-white tab-pane fade">
+				<thead>
+					<tr>
+						<th>STT</th>
+						<th>Họ tên</th>
+						<th>Email</th>
+						<th>Địa chỉ</th>
+						<th>Số điện thoại</th>
+						<th>Chức vụ</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="user, iterStat : ${listStaffs}">
+						<td th:text="${iterStat.count}"></td>
+						<td th:text="${user.fullname}"></td>
+						<td th:text="${user.email}"></td>
+						<td th:text="${user.address}"></td>
+						<td th:text="${user.phone}"></td>
+						<td th:text="${user.role.description}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<footer th:replace="fragment/footer :: footer"></footer>
+
+</body>
+
+</html>

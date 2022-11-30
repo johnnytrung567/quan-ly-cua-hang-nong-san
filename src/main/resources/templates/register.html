@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Register</title>
+<link rel="stylesheet" href="/css/login.css" />
+</head>
+<body>
+	<div class="wrapper fadeInDown">
+		<h1 class="title">WELCOME</h1>
+		<div id="formContent">
+			<div class="form_wrap">
+				<form class="form active" th:action="@{/register/save}" th:object="${user}"
+			method="post">
+					<img class="icon" src="./img/user.png" alt="" />
+					<input
+						type="text" class="fadeIn second" th:field="*{fullname}"
+						placeholder="Full Name" />
+					<input type="email"
+						class="fadeIn second" th:field="*{email}" placeholder="Email" />
+					<input
+						type="tel" class="fadeIn second" th:field="*{phone}" placeholder="Phone" />
+					<input type="text" class="fadeIn second" th:field="*{address}"
+						placeholder="Address" /> 
+					<input type="password"
+						class="fadeIn third" th:field="*{password}" placeholder="Password" /> 
+					<input
+						type="password" class="fadeIn third"
+						placeholder="Confirm Password" />
+						 <button class="submit">Sign up</button>
+				</form>
+			</div>
+
+			<!-- Remind Passowrd -->
+		</div>
+	</div>
+</body>
+</html>

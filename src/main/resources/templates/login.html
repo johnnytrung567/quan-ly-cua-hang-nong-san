@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Login</title>
+<link rel="stylesheet" href="./css/login.css" />
+
+</head>
+<body>
+	<div class="wrapper fadeInDown">
+		<h1 class="title">WELCOME</h1>
+		<div id="formContent">
+			<!-- Tabs Titles -->
+			<div class="tab">
+				<h2 class="sign active" data-tab="1">Sign In</h2>
+			</div>
+			<div class="form_wrap">
+				<form class="form form_1 active" action="login" method="post">
+					<input type="text" class="fadeIn second" name="email" id="email"
+						placeholder="Email" > 
+					<input type="password"
+						class="fadeIn third" name="password" placeholder="Password" >
+					<div class="checkbox">
+						<label><input type="checkbox" name="chkRemember"> Remember me</label>
+					</div>
+					<p style="color: red">${MESSAGE}</p>
+					<a href="" type="submit">Login</a>
+				</form>
+			</div>
+
+			<!-- Remind Passowrd -->
+		</div>
+	</div>
+	<script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>

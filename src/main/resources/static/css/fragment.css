@@ -1,0 +1,120 @@
+html {
+	box-sizing: border-box;
+}
+
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+.text-color {
+	color: #6abd45;
+}
+
+.heading {
+	background-color: #6abd45;
+}
+
+/* header */
+.heading .form-inline {
+	background: white;
+	border-radius: 100px;
+	padding: 0 !important;
+}
+
+.heading .form-inline .form-control {
+	padding: 0 15px;
+	background: none;
+	border: none;
+}
+
+.heading .form-inline .form-control:focus {
+	outline: none;
+}
+
+.heading .form-inline .search {
+	height: 100%;
+	border-top-right-radius: 100px;
+	border-bottom-right-radius: 100px;
+	color: rgb(42, 42, 42);
+	background-color: rgba(106, 189, 69, 0.2);
+	padding: 10px;
+	transition: 0.3s;
+}
+
+.logo-box {
+	font-family: 'Kaushan Script', cursive;
+	font-size: 32px;
+	cursor: pointer;
+}
+
+.logo-box span {
+	font-size: 12px;
+}
+
+.nav-list li a {
+	font-size: 20px;
+}
+
+.notification a, .cart a {
+	position: relative;
+}
+
+.notification a span, .cart a span {
+	font-size: 10px;
+	position: absolute;
+	top: 15%;
+	left: 65%;
+	background-color: orangered;
+	min-width: 13px;
+	height: 13px;
+	border-radius: 100rem;
+}
+
+.user-features {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.user-features .notification, .user-features .cart {
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.user-features .login-box button {
+	font-weight: 500;
+	font-size: 12px;
+}
+
+.footer {
+	background-color: rgba(106, 189, 69, 0.2);
+}
+
+.footer-info {
+	font-size: 12px;
+	display: flex;
+	align-items: flex-start;
+}
+
+.contact-text {
+	text-transform: uppercase;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.contact strong {
+	font-weight: 600;
+}
+
+.social-text {
+	text-transform: uppercase;
+	font-weight: 600;
+}
+
+.social-icon {
+	font-size: 25px;
+}

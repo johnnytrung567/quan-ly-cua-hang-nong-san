@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title></title>
+</head>
+
+<body style="background-color: rgba(202, 202, 202, 0.2);">
+	<!-- ---Header--- -->
+	<nav class="heading navbar navbar-expand-lg navbar-light px-lg-5"
+		th:fragment="header">
+		<a class="logo-box navbar-brand text-white pr-5" href=""
+			th:href="@{/}">nongsan<span>.com</span></a>
+		<form class="form-inline my-2 my-lg-0 pl-lg-5 mx-auto">
+			<input class="form-control" type="search"
+				placeholder="Tìm kiếm nhanh"> <a class="search" href="">Tìm</a>
+		</form>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarTogglerDemo02"
+			aria-controls="navbarTogglerDemo02" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+			<ul class="nav-list navbar-nav ml-auto mt-2 mt-lg-0">
+				<li class="nav-item pr-lg-4"><a class="nav-link text-white"
+					href="" th:href="@{/}"><i class="fas fa-home"></i></a></li>
+				<li class="cart nav-item pr-lg-4"><a
+					class="nav-link text-white" href="" th:href="@{/cart}"> <i
+						class="fas fa-shopping-cart"></i> <span class="text-center">0</span>
+				</a></li>
+
+				<li id="profile" class="nav-item pr-lg-4"><a
+					class="nav-link text-white" href="bill.php"><i
+						class="fas fa-user"></i></a></li>
+				<li class="nav-item pr-lg-4">
+					<button onclick="window.history.back()"
+						class="btn btn-outline-light p-2">Quay lại</button>
+				</li>
+			</ul>
+
+		</div>
+	</nav>
+
+
+	<!--   Header for staffs -->
+	<nav class="heading navbar navbar-expand-lg navbar-light px-lg-5"
+		th:fragment="header-staff">
+		<a class="logo-box navbar-brand text-white pr-5" href=""
+			th:href="@{/}">nongsan<span>.com</span></a>
+	</nav>
+</body>
+</html>
