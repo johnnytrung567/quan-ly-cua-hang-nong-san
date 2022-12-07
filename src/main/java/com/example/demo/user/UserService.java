@@ -1,16 +1,21 @@
 package com.example.demo.user;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.product.Product;
 
 @Service
 @Transactional
-public class UserService {
+public class UserService implements UserDetailsService{
 
 	@Autowired
 	private UserRepository repo;
@@ -27,13 +32,20 @@ public class UserService {
 		repo.save(user);
 	}
 	
-//	public User findByID(String email)  {
-//		for (User user : listAll()) {
-//			if (user.getEmail().equals(email))  {
-//				return user;
-//			}
-//		}
-//		return null;
-//	}
+	public User findbyEmail(String email) {
+		return repo.findByEmail(email);
+	}
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		User user = findbyEmail(email);
+		
+		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), getAuthorities(user));
+	}
+	
+	private static Collection<? extends GrantedAuthority> getAuthorities(User user) {
+        String userRoles = user.getRole().getId().toString();
+        Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
+        return authorities;
+    }
 	
 }

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Montserrat:wght@400;500;600;700&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" href="/css/nghi.css">
+
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<title>Sản phẩm</title>
+</head>
+
+<body>
+	<!-- ---Header--- -->
+	<header th:replace="fragment/header :: header"></header>
+
+	<!-- ---Main content--- -->
+	<div class="container py-4"
+		style="max-width: 1280px; min-height: calc(100vh - 62px - 199px);">
+		<div class="row pt-4">
+			<h3 class="d-flex justify-content-between pl-4 text-black-50">
+				<a href="/" class="text-decoration-none text-black-50">TRANG CHỦ
+				</a> <span class="font-weight-bold"> / </span> <span
+					class="font-weight-bold"> SẢN PHẨM</span>
+			</h3>
+		</div>
+
+		<div class="row pt-2">
+			<div class="col-2 mt-3">
+				<table
+					class="table table-bordered rounded overflow-hidden table-hover"
+					id="product-list">
+					<tr>
+						<th class="text-white ps-2 rounded">DANH MỤC SẢN PHẨM</th>
+					</tr>
+					<tr>
+						<td class="ps-2 font-weight-bold"><a class="ps-2 font-weight-bold d-block"
+							th:href="@{'/products'}">Tất cả</a></td>
+					</tr>
+					<tr th:each="category, iterStat : ${listCategory}">
+						<td><a class="ps-2 font-weight-bold d-block"
+							th:href="@{'/products/' + ${category.id}}"
+							th:text="${category.name}"></a></td>
+					</tr>
+					<!-- <tr>
+                        <td class="ps-2 font-weight-bold">Trái cây</td>
+                    </tr> -->
+				</table>
+			</div>
+
+			<div class="col-10 mt-3 ps-3" id="product">
+				<div class="row">
+					<div class="col-lg-3 col-md-4 col-sm-6 pb-3"
+						th:each="product, iterStat : ${listProducts}">
+						<div class="card h-100">
+							<a th:href="@{'/product/' + ${product.id}}"> <img
+								class="banner-image pb-0 w-100" src=""
+								th:src="@{${product.image}}" alt="">
+							</a>
+							<div class="card-body bg-light d-flex flex-column">
+								<a class="text-decoration-none"
+									th:href="@{'/product/' + ${product.id}}">
+									<h5 class="card-title text-center fw-bold"
+										th:text="${product.title}"></h5>
+								</a>
+								<h4 class="card-text text-center fw-bold mt-auto"
+									th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + đ"></h4>
+
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+
+
+			</div>
+
+		</div>
+	</div>
+
+	<!-- ---Footer--- -->
+	<footer th:replace="fragment/footer :: footer"></footer>
+
+</body>
+
+
+
+</html>

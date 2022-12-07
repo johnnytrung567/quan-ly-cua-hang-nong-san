@@ -16,25 +16,31 @@
 		<div id="formContent">
 			<!-- Tabs Titles -->
 			<div class="tab">
-				<h2 class="sign active" data-tab="1">Sign In</h2>
+				<h2 class="sign active" data-tab="1">Đăng nhập</h2>
 			</div>
 			<div class="form_wrap">
-				<form class="form form_1 active" action="login" method="post">
+				<form class="form form_1 active" th:action="@{/login}" method="POST"
+					role="form">
 					<input type="text" class="fadeIn second" name="email" id="email"
-						placeholder="Email" > 
-					<input type="password"
-						class="fadeIn third" name="password" placeholder="Password" >
+						placeholder="Email"> <input type="password"
+						class="fadeIn third" name="password" id="password"
+						placeholder="Mật khẩu">
 					<div class="checkbox">
-						<label><input type="checkbox" name="chkRemember"> Remember me</label>
+						<label><input type="checkbox" name="checkbox">
+							Ghi nhớ đăng nhập</label>
 					</div>
-					<p style="color: red">${MESSAGE}</p>
-					<a href="" type="submit">Login</a>
+					<div style="padding-top: 2%">
+						<small>Chưa có tài khoản? <a th:href="@{/register}">Đăng ký</a></small>
+					</div>
+					<p style="color: red"></p>
+					<button type="submit" class="submit">Đăng nhập</button>
 				</form>
 			</div>
 
 			<!-- Remind Passowrd -->
 		</div>
 	</div>
+
 	<script type="text/javascript" src="js/main.js"></script>
 </body>
 </html>
