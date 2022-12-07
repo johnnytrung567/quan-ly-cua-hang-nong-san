@@ -23,69 +23,118 @@
 	rel="stylesheet">
 <link rel="stylesheet" href="/css/fragment.css">
 <title>Quản lý sản phẩm</title>
+<style>
+.nav-link {
+	background-color: #fff;
+	color: #495057;
+}
+
+.nav-link.active {
+	background-color: #f8f9fa !important;
+	font-weight: bold;
+}
+</style>
 </head>
 
 <body class="bg-light">
 	<header th:replace="fragment/header :: header-staff"></header>
 	<div style="min-height: calc(100vh - 66px - 199px);">
-		<h1 class="text-center pt-2">Quản lý sản phẩm</h1>
+		<ul class="nav nav-tabs justify-content-center" role="tablist">
+			<li class="nav-item w-50 text-center"><a class="nav-link active"
+				data-toggle="tab" href="#product-management">Quản lý sản phẩm</a></li>
+			<li class="nav-item w-50 text-center"><a class="nav-link"
+				data-toggle="tab" href="#category-management">Quản lý danh mục
+					sản phẩm</a></li>
+		</ul>
 
-		<div class="container mt-5">
-			<div class="text-right mb-4">
-				<a th:href="@{add-product}" class="btn btn-success">Thêm sản phẩm</a>
+		<div class="tab-content">
+			<div id="product-management" class="container mt-5 tab-pane active">
+				<div class="text-right mb-4">
+					<a th:href="@{add-product}" class="btn btn-success">Thêm sản
+						phẩm</a>
+				</div>
+
+				<table class="table table-hover bg-white">
+					<thead>
+						<tr>
+							<th>STT</th>
+							<th>Hình ảnh</th>
+							<th>Tên sản phẩm</th>
+							<th>Giá</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="product, iterStat : ${listProducts}">
+							<td th:text="${iterStat.count}"></td>
+							<td><img th:src="${product.image}" alt="" src=""
+								width="40px"></td>
+							<td th:text="${product.title}"></td>
+							<td th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + đ"></td>
+							<td><a class="btn btn-secondary"
+								th:href="@{'/storehouse/' + ${product.id}}">Chi tiết</a> <a
+								class="btn btn-info ml-2"
+								th:href="@{'/edit-product/' + ${product.id}}">Sửa</a>
+								<button class="btn btn-danger ml-2" data-toggle="modal"
+									data-target="#deleteModal"
+									th:attr="onclick=|confirmDelete('${product.id}', '${product.title}')|">Xóa</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 
-			<table class="table table-hover bg-white">
-				<thead>
-					<tr>
-						<th>STT</th>
-						<th>Hình ảnh</th>
-						<th>Tên sản phẩm</th>
-						<th>Giá</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="product, iterStat : ${listProducts}">
-						<td th:text="${iterStat.count}"></td>
-						<td><img th:src="${product.image}" alt="" src="" width="40px"></td>
-						<td th:text="${product.title}"></td>
-						<td th:text="${product.price}"></td>
-						<td>
-							<a class="btn btn-secondary" th:href="@{'/storehouse/' + ${product.id}}">Chi tiết</a>
-							<button class="btn btn-info ml-2">Sửa</button>
-							<button class="btn btn-danger ml-2" data-toggle="modal"
-								data-target="#deleteModal">Xóa</button>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-
-		<!-- The delete Modal -->
-		<div class="modal fade" id="deleteModal">
-			<div class="modal-dialog">
-				<div class="modal-content">
-
-					<!-- Modal Header -->
-					<div class="modal-header">
-						<h4 class="modal-title">Xóa sản phẩm</h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-
-					<!-- Modal body -->
-					<div class="modal-body">Modal body..</div>
-
-					<!-- Modal footer -->
-					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-					</div>
-
-				</div>
+			<div id="category-management" class="container mt-5 tab-pane fade">
+				<table class="table table-hover bg-white">
+					<thead>
+						<tr>
+							<th>STT</th>
+							<th>Tên danh mục</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="cate, iterStat : ${listCategory}">
+							<td th:text="${iterStat.count}"></td>
+							<td th:text="${cate.name}"></td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
+	<!-- The delete Modal -->
+	<div class="modal fade" id="deleteModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">Xóa sản phẩm</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body"></div>
+
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Đóng</button>
+					<a id="ensure" class="btn btn-danger" href="#">Xóa</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
 	<footer th:replace="fragment/footer :: footer"></footer>
+
+	<script type="text/javascript">
+		function confirmDelete(id, title) {
+			$('.modal-body').html('Bạn có chắc muốn xóa sản phẩm ' + title)
+			$('#ensure').attr('href', '/delete-product/' + id)
+		}
+	</script>
 </body>
 
 </html>

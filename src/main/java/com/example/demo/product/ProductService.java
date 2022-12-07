@@ -17,6 +17,10 @@ public class ProductService {
 		return repo.findAll();
 	}
 	
+	public List<Product> listProductsByCat(int category) {
+		return repo.listProductsByCat(category);
+	}
+	
 	public void save(Product product) {
 		repo.save(product);
 	}

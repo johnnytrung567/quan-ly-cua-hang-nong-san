@@ -6,17 +6,28 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 
 import com.example.demo.category.Category;
 
 @Entity
 public class Product {
 	private Long id;
+	@NotEmpty(message = "Vui lòng nhập tên sản phẩm")
 	private String title;
+	
+	@NotEmpty(message = "Vui lòng nhập mô tả")
 	private String description;
+	
 	private String image;
+	
+	@Min(value = 1, message = "Giá tối thiểu là 1đ")
 	private int price;
+	
+	@Min(value = 1, message = "Số lượng tối thiểu là 1")
 	private int quantity;
+	
 	private Category category;
 
 	public Product() {

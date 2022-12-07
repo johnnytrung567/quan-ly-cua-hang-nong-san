@@ -13,24 +13,34 @@
 		<h1 class="title">WELCOME</h1>
 		<div id="formContent">
 			<div class="form_wrap">
-				<form class="form active" th:action="@{/register/save}" th:object="${user}"
-			method="post">
-					<img class="icon" src="./img/user.png" alt="" />
-					<input
+				<form class="form active" th:action="@{/register-save}"
+					th:object="${user}" method="post">
+					<img class="icon" src="./img/user.png" alt="" /> <input
 						type="text" class="fadeIn second" th:field="*{fullname}"
-						placeholder="Full Name" />
-					<input type="email"
-						class="fadeIn second" th:field="*{email}" placeholder="Email" />
-					<input
-						type="tel" class="fadeIn second" th:field="*{phone}" placeholder="Phone" />
+						placeholder="Họ tên" /> <small style="color: red; display: block"
+						th:if="${#fields.hasErrors('fullname')}" th:errors="*{fullname}"></small>
+					<input type="email" class="fadeIn second" th:field="*{email}"
+						placeholder="Email" /> <small style="color: red; display: block"
+						th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+					<input type="tel" class="fadeIn second" th:field="*{phone}"
+						placeholder="Số điện thoại" /> <small
+						style="color: red; display: block"
+						th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></small>
 					<input type="text" class="fadeIn second" th:field="*{address}"
-						placeholder="Address" /> 
-					<input type="password"
-						class="fadeIn third" th:field="*{password}" placeholder="Password" /> 
-					<input
-						type="password" class="fadeIn third"
-						placeholder="Confirm Password" />
-						 <button class="submit">Sign up</button>
+						placeholder="Địa chỉ" /> <small
+						style="color: red; display: block"
+						th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></small>
+					<input type="password" class="fadeIn third" th:field="*{password}"
+						placeholder="Mật khẩu" /> <small
+						style="color: red; display: block"
+						th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+					<input type="password" class="fadeIn third"
+						placeholder="Nhập lại mật khẩu" name="confirmPassword" /> <small
+						style="color: red; display: block" th:text="${confirmPassError}"></small>
+					<div style="padding-top: 2%">
+						<small>Đã có tài khoản? <a th:href="@{/login}">Đăng nhập</a></small>
+					</div>
+					<button class="submit">Đăng ký</button>
 				</form>
 			</div>
 

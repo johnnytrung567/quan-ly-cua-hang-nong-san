@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 import com.example.demo.role.Role;
 
@@ -13,14 +15,20 @@ import com.example.demo.role.Role;
 public class User {
 	private Long id;
 	
+	@NotEmpty(message = "Vui lòng nhập họ tên")
 	private String fullname;
 	
+	@NotEmpty(message = "Vui lòng nhập email")
+	@Email(message = "Vui lòng nhập email hợp lệ")
 	private String email;
 	
+	@NotEmpty(message = "Vui lòng nhập mật khẩu")
 	private String password;
 	
+	@NotEmpty(message = "Vui lòng nhập địa chỉ")
 	private String address;
 	
+	@NotEmpty(message = "Vui lòng nhập số điện thoại")
 	private String phone;
 	
 	
