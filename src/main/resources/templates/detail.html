@@ -38,12 +38,15 @@
 					<img class="mainImg" th:src="${product.image}" alt="" />
 				</div>
 				<div class="col-lg-6 desc">
-					<a href="/">Trang chủ</a> / <a href="">Trái cây</a>
+					<a href="/">Trang chủ</a> / <a
+						th:href="@{'/products/' + ${product.category.id}}"
+						th:text="${product.category.name}"></a>
 					<div class="my-3">
 						<h2 class="font-weight-bold" th:text="${product.title}"></h2>
 					</div>
 					<!-- <hr /> -->
-					<span class="font-weight-bold" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + đ"></span>
+					<span class="font-weight-bold"
+						th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + đ"></span>
 					<p th:utext="${product.description}"></p>
 					<button class="minus">-</button>
 					<input type="" placeholder="1" />
@@ -53,36 +56,28 @@
 					</button>
 				</div>
 			</div>
-
-			<!-- <div class="row mt-4">
-				<div style="margin: 0 68px">
-					<button class="detailBtn">Thông tin chi tiết</button>
-					<p class="descP">
-						Lựu nhập khẩu Trung Quốc được xem là một trong những loại trái cây
-						nhập khẩu tốt nhất cho sức khỏe. Trong quả lựu chứa một loạt các
-						hợp chất từ thực vật có lợi mà nhiều loại thực phẩm khác không thể
-						so sánh được. Các nghiên cứu đã cho thấy rằng chúng có nhiều lợi
-						ích và làm giảm nguy cơ mắc nhiều bệnh khác nhau. Với hương vị
-						thơm ngon đặc trưng và giá trị dinh dưỡng đối với sức khỏe, lựu
-						đang được rất nhiều sự lựa chọn của người tiêu dùng. <br />
-						Thương hiệu: HappyLife <br /> Loại sản phẩm: Rau củ, Trái cây <br />
-						Nơi sản xuất: Trung Quốc <br /> Khối lượng: 1kg
-					</p>
-				</div>
-			</div> -->
 			<hr>
 			</hr>
 			<h3>SẢN PHẨM TƯƠNG TỰ</h3>
 			<div class="row" style="justify-content: space-evenly;">
-				<div class="cardItem col-lg-3 col-md-6">
-					<img class="card-img-top" src="./images/cachua.jpg"
-						alt="Card image cap" />
-					<div class="card-body">
-						<h5 class="card-title">Cà</h5>
-						<p class="card-text">330,000 đ</p>
+				<div class="col-lg-3 col-md-6 px-2"
+					th:each="product : ${similarProducts}">
+					<div class="cardItem h-100 d-flex flex-column">
+						<a th:href="@{'/product/' + ${product.id}}"> <img
+							class="card-img-top" th:src="${product.image}"
+							alt="Card image cap" />
+						</a>
+						<div class="card-body d-flex flex-column">
+							<a class="text-decoration-none"
+								th:href="@{'/product/' + ${product.id}}">
+								<h5 class="card-title" th:text="${product.title}"></h5>
+							</a>
+							<p class="card-text mt-auto"
+								th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + đ"></p>
+						</div>
 					</div>
 				</div>
-				<div class="cardItem col-lg-3 col-md-6">
+				<!-- <div class="cardItem col-lg-3 col-md-6">
 					<img class="card-img-top" src="./images/cachua.jpg"
 						alt="Card image cap" />
 					<div class="card-body">
@@ -107,7 +102,7 @@
 						<h5 class="card-title">Dứa</h5>
 						<p class="card-text">330,000 đ</p>
 					</div>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>

@@ -1,265 +1,140 @@
-
-
-
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang chủ</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Montserrat:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
- <link
-        href="/css/duy.css"
-        rel="stylesheet">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trang chủ</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Montserrat:wght@400;500;600;700&display=swap"
+	rel="stylesheet">
+<link href="/css/duy.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/css/fragment.css">
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-    <header class="header">
-        <nav class="heading navbar navbar-expand-lg navbar-light px-lg-5">
-            <a class="logo-box navbar-brand text-white" href="index.php">nongsan<span>.com</span></a>
-            <form class="form-inline my-2 my-lg-0 pl-lg-5 mx-auto">
-                <input class="form-control" type="search" placeholder="Tìm kiếm nhanh">
-                <a class="search" href="">Tìm</a>
-            </form>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
-                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-                <ul class="nav-list navbar-nav ml-auto mt-2 mt-lg-0">
-                    <li class="nav-item pr-lg-4">
-                        <a class="nav-link text-white" href="#"><i class="fas fa-home"></i></a>
-                    </li>
-                    <li class="nav-item pr-lg-4">
-                        <a class="nav-link text-white" href="news.php"><i class="far fa-newspaper"></i></i></a>
-                    </li>
-                    <li class="notification nav-item pr-lg-4">
-                        <a class="nav-link text-white" href="#"><i class="far fa-bell"></i><span class="text-center">0</span></a>
-                    </li>
-                    <li class="cart nav-item pr-lg-4">
-                        <a class="nav-link text-white" href="cart.php"><i class="fas fa-shopping-cart"></i><span class="text-center">0</span></a>
-                    </li>
-                    <li id="profile" class="nav-item pr-lg-4">
-                        <a class="nav-link text-white" href="profile.html"><i class="fas fa-user"></i></a>
-                    </li>
-                 
-                </ul>
-            </div>
-               <div id="login" class="btn nav-item">
-                        <a href="login.html" class="btn login">Đăng nhập</a>
-                        <a href="#" class="btn out">Đăng xuất</a>
-            </div>
-        </nav>
-    </header>
-    <section class="slider-wrap">
-        <div class="container-fluid">
-            <div class="row">
-                <div id="category" class="category col-lg-3 px-0">
-                    <ul class="list-group">
-                        <li class="category-item list-group-item">Đồ chơi phát nhạc<span>></span></li>
-                        <li class="category-item list-group-item">Đồ chơi cho trẻ sơ sinh<span>></span></li>
-                        <li class="category-item list-group-item">Đồ chơi LEGO<span>></span></li>
-                        <li class="category-item list-group-item">Đồ chơi búp bê<span>></span></li>
-                        <li class="category-item list-group-item">Đồ chơi giáo dục<span>></span></li>
-                        <li class="category-item list-group-item">Đồ chơi mô hình<span>></span></li>
-                        <li class="category-item list-group-item">Đồ chơi nhà tắm<span>></span></li>
-                        <li class="category-item list-group-item">Đồ chơi vận động thể chất<span>></span></li>
-                        <li class="category-item list-group-item">Đồ chơi bông vải<span>></span></li>
-                    </ul>
-                </div>
-                <div class="slider col-lg-6 px-0">
-                    <div id="slide" class="carousel slide" data-ride="carousel">
-                        <!-- Indicators -->
-                        <ul class="carousel-indicators">
-                            <li data-target="#slide" data-slide-to="0" class="active"></li>
-                            <li data-target="#slide" data-slide-to="1"></li>
-                            <li data-target="#slide" data-slide-to="2"></li>
-                        </ul>
-                        <!-- The slideshow -->
-                        <div class="carousel-inner">
-                            <div class="slide-image carousel-item active">
-                                <img src="images/rau-muong.jpeg" alt="" width="1100" height="500">
-                            </div>
-                            <div class="slide-image carousel-item">
-                                <img src="images/bap-cai.jpeg" alt="" width="1100" height="500">
-                            </div>
-                            <div class="slide-image carousel-item">
-                                <img src="images/slide3.jpg" alt="" width="1100" height="500">
-                            </div>
-                        </div>
-                        <!-- Left and right controls -->
-                        <a class="carousel-control-prev" href="#slide" data-slide="prev">
-                            <span class="carousel-control-prev-icon"></span>
-                        </a>
-                        <a class="carousel-control-next" href="#slide" data-slide="next">
-                            <span class="carousel-control-next-icon"></span>
-                        </a>
-                    </div>
-                </div>
-                <div class="event col-lg-3 bg-white">
-                    <div id="event-img" class="image--shadow w-100 border rounded my-3">
-                        <img src="images/toy1.png" alt="">
-                    </div>
-                    <h4 class="event-title">SIÊU QUÀ ĐỒ CHƠI: 100% TRÚNG QUÀ</h4>
-                    <p class="event-text my-3">Mua đồ chơi rước xe Vespa, Iphone 13 Pro Max!!!</p>
-                </div>
-            </div>
-        </div>
-    </section>
+	<header th:replace="fragment/header :: header"></header>
 
-    <section class="product">
-        <div class="container">
-            <h3 class="title col-12 px-0 text-primary mt-5 pb-2">Deal Online ngẫu nhiên</h3>
-            <div id="deal-row" class="row g-5">
-                <div class="product-item mb-5 col-lg-3 col-sm-6">
-                    <div class="product-item-image  ">
-                        <img src="./images/ca-chua.jpg" alt="">
-                    </div>
-                    <div class="product-title">
-                        <h3 class="product-item-name ">Đồ chơi bồn tắm chim cánh cụt Farlin DC-20046</h3>
-                        <span class="product-item-price">
-                            46.000đ
-                        </span>
-                        <a class="product-item-buy">Mua ngay</a>
-                    </div>
-                </div>
-                <div class="product-item mb-5 col-lg-3 col-sm-6">
-                    <div class="product-item-image  ">
-                        <img src="./images/ca-chua.jpg" alt="">
-                    </div>
-                    <div class="product-title">
-                        <h3 class="product-item-name ">Đồ chơi bồn tắm chim cánh cụt Farlin DC-20046</h3>
-                        <span class="product-item-price">
-                            46.000đ
-                        </span>
-                        <a class="product-item-buy">Mua ngay</a>
-                    </div>
-                </div>
+	<section class="slider-wrap">
+		<div class="container-fluid">
+			<div class="row align-items-start flex-wrap">
+				<div id="category" class="category col-12 col-md-2 px-0 pl-3">
+					<ul class="list-group" th:each="category : ${listCategory}">
+						<li class="category-item list-group-item"><a
+							th:utext="${category.name} + '<span>></span>'"
+							th:href="@{'/products/' + ${category.id}}"></a></li>
+					</ul>
+				</div>
+				<div class="slider col-12 col-md-8 mx-0">
+					<div id="slide" class="carousel slide" data-ride="carousel">
+						<!-- Indicators -->
+						<ul class="carousel-indicators">
+							<li data-target="#slide" data-slide-to="0" class="active"></li>
+							<li data-target="#slide" data-slide-to="1"></li>
+							<li data-target="#slide" data-slide-to="2"></li>
+						</ul>
+						<!-- The slideshow -->
+						<div class="carousel-inner">
+							<div class="slide-image carousel-item active">
+								<img src="images/slide1.jpg" alt="" width="1100" height="500">
+							</div>
+							<div class="slide-image carousel-item">
+								<img src="images/slide2.jpg" alt="" width="1100" height="500">
+							</div>
+							<div class="slide-image carousel-item">
+								<img src="images/slide3.jpg" alt="" width="1100" height="500">
+							</div>
+						</div>
+						<!-- Left and right controls -->
+						<a class="carousel-control-prev" href="#slide" data-slide="prev">
+							<span class="carousel-control-prev-icon"></span>
+						</a> <a class="carousel-control-next" href="#slide" data-slide="next">
+							<span class="carousel-control-next-icon"></span>
+						</a>
+					</div>
+				</div>
+				<div class="event col-12 col-md-2 bg-white">
+					<div id="event-img" class="image--shadow w-100 border rounded my-3">
+						<img src="images/ca-chua.jpg" alt="">
+					</div>
+					<h4 class="event-title">SIÊU QUÀ NÔNG SẢN: 100% TRÚNG QUÀ</h4>
+					<p class="event-text my-3">Mua nông sản rước xe Vespa, Iphone
+						14 Pro Max!!!</p>
+				</div>
+			</div>
+		</div>
+	</section>
 
-               <div class="product-item mb-5 col-lg-3 col-sm-6">
-                    <div class="product-item-image  ">
-                        <img src="./images/ca-chua.jpg" alt="">
-                    </div>
-                    <div class="product-title">
-                        <h3 class="product-item-name ">Đồ chơi bồn tắm chim cánh cụt Farlin DC-20046</h3>
-                        <span class="product-item-price">
-                            46.000đ
-                        </span>
-                        <a class="product-item-buy">Mua ngay</a>
-                    </div>
-                </div>
-                <div class="product-item mb-5 col-lg-3 col-sm-6">
-                    <div class="product-item-image  ">
-                        <img src="./images/ca-chua.jpg" alt="">
-                    </div>
-                    <div class="product-title">
-                        <h3 class="product-item-name ">Đồ chơi bồn tắm chim cánh cụt Farlin DC-20046</h3>
-                        <span class="product-item-price">
-                            46.000đ
-                        </span>
-                        <a class="product-item-buy">Mua ngay</a>
-                    </div>
-                </div>
-            </div>
+	<section class="product">
+		<div class="container">
+			<h3 class="title col-12 px-0 text-success mt-5 pb-2">Deal Online
+				ngẫu nhiên</h3>
+			<div id="deal-row" class="row g-5">
+				<div class="product-item mb-5 col-lg-3 col-sm-6"
+					th:each="product : ${randomProductsOne}">
+					<div class="h-100 card">
+						<div class="product-item-image  ">
+							<a th:href="@{'/product/' + ${product.id}}"> <img
+								th:src="${product.image}" alt="">
+							</a>
+						</div>
+						<div class="product-title card-body d-flex flex-column">
+							<a class="text-decoration-none"
+								th:href="@{'/product/' + ${product.id}}">
+								<h3 class="product-item-name" th:text="${product.title}"></h3>
+							</a> <span class="product-item-price d-block mt-auto"
+								th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + đ"></span>
+							<a href="#" class="product-item-buy">Thêm vào giỏ</a>
+						</div>
+					</div>
+				</div>
+			</div>
 
-            <div class="promotion">
-                <h3 class="title col-12 px-0 text-primary pb-2">Khuyến mại ngẫu nhiên</h3>
-                <div id="promotion-row" class="row">
-                   <div class="product-item mb-5 col-lg-3 col-sm-6">
-                    <div class="product-item-image  ">
-                        <img src="./images/ca-chua.jpg" alt="">
-                    </div>
-                    <div class="product-title">
-                        <h3 class="product-item-name ">Đồ chơi bồn tắm chim cánh cụt Farlin DC-20046</h3>
-                        <span class="product-item-price">
-                            46.000đ
-                        </span>
-                        <a class="product-item-buy">Mua ngay</a>
-                    </div>
-                </div>
-                   <div class="product-item mb-5 col-lg-3 col-sm-6">
-                    <div class="product-item-image  ">
-                        <img src="./images/ca-chua.jpg" alt="">
-                    </div>
-                    <div class="product-title">
-                        <h3 class="product-item-name ">Đồ chơi bồn tắm chim cánh cụt Farlin DC-20046</h3>
-                        <span class="product-item-price">
-                            46.000đ
-                        </span>
-                        <a class="product-item-buy">Mua ngay</a>
-                    </div>
-                </div>
-                   <div class="product-item mb-5 col-lg-3 col-sm-6">
-                    <div class="product-item-image  ">
-                        <img src="./images/ca-chua.jpg" alt="">
-                    </div>
-                    <div class="product-title">
-                        <h3 class="product-item-name ">Đồ chơi bồn tắm chim cánh cụt Farlin DC-20046</h3>
-                        <span class="product-item-price">
-                            46.000đ
-                        </span>
-                        <a class="product-item-buy">Mua ngay</a>
-                    </div>
-                </div>
-                   <div class="product-item mb-5 col-lg-3 col-sm-6">
-                    <div class="product-item-image  ">
-                        <img src="./images/ca-chua.jpg" alt="">
-                    </div>
-                    <div class="product-title">
-                        <h3 class="product-item-name ">Đồ chơi bồn tắm chim cánh cụt Farlin DC-20046</h3>
-                        <span class="product-item-price">
-                            46.000đ
-                        </span>
-                        <a class="product-item-buy">Mua ngay</a>
-                    </div>
-                </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    </div>
+			<div class="promotion">
+				<h3 class="title col-12 px-0 text-success pb-2">Khuyến mại ngẫu
+					nhiên</h3>
+				<div id="promotion-row" class="row">
+					<div class="product-item mb-5 col-lg-3 col-sm-6"
+						th:each="product : ${randomProductsTwo}">
+						<div class="h-100 card">
+							<div class="product-item-image  ">
+								<a th:href="@{'/product/' + ${product.id}}"> <img
+									th:src="${product.image}" alt="">
+								</a>
+							</div>
+							<div class="product-title card-body d-flex flex-column">
+								<a class="text-decoration-none"
+									th:href="@{'/product/' + ${product.id}}">
+									<h3 class="product-item-name" th:text="${product.title}"></h3>
+								</a> <span class="product-item-price d-block mt-auto"
+									th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + đ"></span>
+								<a href="#" class="product-item-buy">Thêm vào giỏ</a>
+							</div>
+						</div>
+					</div>
 
-    <footer class="footer mt-md-5 pb-3">
-        <div class="container">
-            <div class="footer-info row">
-                <div class="logo-box col-md-2 col-sm-12 pt-3">
-                    <div class="logo">nongsan<span>.com</span></div>
-                </div>
+				</div>
+			</div>
+		</div>
+	</section>
 
-                <div class="contact col-md-6 col-sm-12 pt-3">
-                    <p class="contact-text">công ty cổ phần nongsan</p>
-                    <p><strong>Điện thoại: </strong>012 345 6789</p>
-                    <p><strong>Email: </strong>nongsan@gmail.com</p>
-                    <p><strong>Văn phòng: </strong>19 Nguyễn Hữu Thọ, P.Tân Phong, Q.7, HCM</p>
-                </div>
-
-                <div class="social col-md-4 col-sm-12 pt-3">
-                    <p class="social-text">Kết nối với chúng tôi</p>
-                    <div class="social-icon">
-                        <i class="fab fa-facebook px-3"></i>
-                        <i class="fab fa-youtube px-3"></i>
-                        <i class="fab fa-instagram px-3"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-   
-
+	<footer th:replace="fragment/footer :: footer"></footer>
 
 </body>
 

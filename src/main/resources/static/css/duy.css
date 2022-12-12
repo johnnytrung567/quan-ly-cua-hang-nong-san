@@ -1,5 +1,5 @@
 html {
-  --green-cl: #1dd1a1;
+  --green-cl: #6abd45;
   box-sizing: border-box;
   font-size: 16px;
 }
@@ -96,7 +96,7 @@ img {
 }
 
 .slider-wrap {
-  padding: 100px 0px;
+  padding: 50px 0px;
 }
 .slider-wrap .container-fluid .row {
   display: flex;
@@ -178,15 +178,32 @@ img {
   display: flex;
   justify-content: space-between;
   transition: 0.3s ease-in-out;
+  padding: 0;
+  align-items: center;
+}
+
+.category .category-item a{
+  text-decoration: none;
+  color: unset;
+  display: block;
+  padding: 12px 20px;
+  width: 100%;
+  position: relative;
+}
+
+.category .category-item a span {
+	position: absolute;
+	right: 0;
+	transform: translateX(-20px);
 }
 
 .category .category-item:hover {
-  background-color: #1dd1a1;
+  background-color: #6abd45;
   color: #fff;
 }
 
 .category .category-item:hover span {
-  transform: translateX(4px);
+  transform: translateX(-16px);
 }
 
 .slider .slide-image img {
@@ -237,7 +254,7 @@ img {
 .product-item-image img {
   transform: scale(1);
   object-fit: cover;
-  height: 100%;
+  height: 180px;
   width: 100%;
   transition: 0.3s;
 }
@@ -255,7 +272,7 @@ img {
 }
 
 .product-item-price {
-  color: #1dd1a1;
+  color: #6abd45;
   font-size: 18px;
   font-weight: 500;
   margin: 10px 0px;
@@ -265,20 +282,18 @@ img {
 .product-item-buy {
   display: block;
   text-align: center;
-  padding: 20px 0px;
+  padding: 10px 0px;
   width: 100%;
   color: white;
   transition: 0.3s;
   background: var(--green-cl);
+  cursor: pointer;
 }
 .product-item-buy:hover {
   text-decoration: none;
+  color: white;
   transition: 0.3s;
-  opacity: 0.5;
-}
-
-.footer {
-  background: #86ba09;
+  background-color: #5ba13b; 
 }
 
 .footer-info {
@@ -318,7 +333,7 @@ img {
 
 .detail-price {
   font-size: 30px;
-  color: #1dd1a1;
+  color: #6abd45;
   font-weight: 700;
 }
 

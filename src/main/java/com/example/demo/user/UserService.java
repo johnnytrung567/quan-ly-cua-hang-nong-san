@@ -32,6 +32,11 @@ public class UserService implements UserDetailsService{
 		repo.save(user);
 	}
 	
+	public User findByUsername(String email) {
+		// TODO Auto-generated method stub
+		return repo.findByUsername(email);
+	}
+	
 	public User findbyEmail(String email) {
 		return repo.findByEmail(email);
 	}
