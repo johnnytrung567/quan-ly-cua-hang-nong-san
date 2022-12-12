@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
 <meta charset="UTF-8" />
@@ -34,14 +35,20 @@
 					class="nav-link text-white" href="" th:href="@{/cart}"> <i
 						class="fas fa-shopping-cart"></i> <span class="text-center">0</span>
 				</a></li>
-
-				<li id="profile" class="nav-item pr-lg-4"><a
-					class="nav-link text-white" href="bill.php"><i
-						class="fas fa-user"></i></a></li>
+				<li id="profile" class="nav-item pr-lg-4" sec:authorize="isAnonymous()" th:href="@{/login}">
+					<a th:href="@{/login}" ><button class="btn btn-outline-light p-2" >Đăng nhập</button></a>
+				</li>
+				<li id="profile" class="nav-item pr-lg-4" sec:authorize="isAuthenticated()"><a
+					class="nav-link text-white" th:href="@{/profile}"><i
+						class="fas fa-user"></i></a>
+				</li>
+				<li class="nav-item pr-lg-4" sec:authorize="isAuthenticated()">
+					<a th:href="@{/logout}"><button class="btn btn-outline-light p-2" >Đăng xuất</button></a>
+				</li>		
 				<li class="nav-item pr-lg-4">
 					<button onclick="window.history.back()"
 						class="btn btn-outline-light p-2">Quay lại</button>
-				</li>
+				</li>			
 			</ul>
 
 		</div>

@@ -50,11 +50,14 @@
 						<th class="text-white ps-2 rounded">DANH MỤC SẢN PHẨM</th>
 					</tr>
 					<tr>
-						<td class="ps-2 font-weight-bold"><a class="ps-2 font-weight-bold d-block"
-							th:href="@{'/products'}">Tất cả</a></td>
+						<td class="p-0 font-weight-bold" th:classappend="${categoryId == 0} ? active : ''"><a style="padding: 12px;"
+							class="ps-2 font-weight-bold d-block" th:href="@{'/products'}">Tất
+								cả</a></td>
 					</tr>
 					<tr th:each="category, iterStat : ${listCategory}">
-						<td><a class="ps-2 font-weight-bold d-block"
+						<td class="p-0"
+							th:classappend="${categoryId == category.id} ? active : ''"><a
+							style="padding: 12px;" class=" font-weight-bold d-block"
 							th:href="@{'/products/' + ${category.id}}"
 							th:text="${category.name}"></a></td>
 					</tr>
@@ -70,8 +73,8 @@
 						th:each="product, iterStat : ${listProducts}">
 						<div class="card h-100">
 							<a th:href="@{'/product/' + ${product.id}}"> <img
-								class="banner-image pb-0 w-100" src=""
-								th:src="@{${product.image}}" alt="">
+								class="banner-image pb-0 w-100"
+								th:src="${product.image}" alt="">
 							</a>
 							<div class="card-body bg-light d-flex flex-column">
 								<a class="text-decoration-none"
@@ -81,6 +84,8 @@
 								</a>
 								<h4 class="card-text text-center fw-bold mt-auto"
 									th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + đ"></h4>
+									<a href="#"
+							class="product-item-buy">Thêm vào giỏ</a>
 
 							</div>
 

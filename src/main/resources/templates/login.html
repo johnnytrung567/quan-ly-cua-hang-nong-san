@@ -19,20 +19,24 @@
 				<h2 class="sign active" data-tab="1">Đăng nhập</h2>
 			</div>
 			<div class="form_wrap">
-				<form class="form form_1 active" th:action="@{/login}" method="POST"
-					role="form">
-					<input type="text" class="fadeIn second" name="email" id="email"
-						placeholder="Email"> <input type="password"
-						class="fadeIn third" name="password" id="password"
-						placeholder="Mật khẩu">
+				<form class="form form_1 active" th:action="@{/login}" method="post" role="form">
+					<p th:if="${param.permit}" style="color: red;" class="alert alert-danger">Bạn cần đăng nhập.</p>
+					<p th:if="${param.fail}" style="color: red;" class="alert alert-danger">Email hoặc mật khẩu chưa đúng.</p>
+					
+					<input type="text" class="fadeIn second" name="email" id="email" placeholder="Email">
+					<!-- <small style="color: red; display: block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small> -->
+						
+					<input type="password" class="fadeIn third" name="password" id="password" placeholder="Mật khẩu">
+					<!-- <small style="color: red; display: block" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small> -->
+					
 					<div class="checkbox">
-						<label><input type="checkbox" name="checkbox">
-							Ghi nhớ đăng nhập</label>
+						<label><input type="checkbox" name="remember-me"> Ghi nhớ đăng nhập</label>
 					</div>
+					
 					<div style="padding-top: 2%">
 						<small>Chưa có tài khoản? <a th:href="@{/register}">Đăng ký</a></small>
 					</div>
-					<p style="color: red"></p>
+							
 					<button type="submit" class="submit">Đăng nhập</button>
 				</form>
 			</div>

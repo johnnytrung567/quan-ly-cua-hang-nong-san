@@ -5,10 +5,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.SecureRandom;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,18 +49,37 @@ public class AppController {
 
 	@RequestMapping("/")
 	public String viewHomePage(Model model) {
-//		List<Product> listProducts = productService.listAll();
-//		model.addAttribute("listProducts", listProducts);
+		List<Category> listCategory = categoryService.listAll();
+		model.addAttribute("listCategory", listCategory);
+
+		List<Product> listProducts = productService.listAll();
+
+		// Lấy ngẫu nhiên 4 sản phẩm
+		Collections.shuffle(listProducts);
+		int randomSeriesLength = 4;
+		int randomSeriesLength2 = 8;
+
+		List<Product> randomProductsOne = listProducts.subList(0, randomSeriesLength);
+		List<Product> randomProductsTwo = listProducts.subList(randomSeriesLength, randomSeriesLength2);
+
+		model.addAttribute("randomProductsOne", randomProductsOne);
+		model.addAttribute("randomProductsTwo", randomProductsTwo);
 
 		return "index";
 	}
-	
-	// Chức năng đăng nhập
-		@RequestMapping("/login")
-		public String viewLoginPage(Model model) {
 
+	// Chức năng đăng nhập
+	@RequestMapping("/login")
+	public String viewLoginPage(Model model) {
+
+		// Chặn vào login sau khi đã login
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
 			return "login";
 		}
+
+		return "redirect:/";
+	}
 
 	// Chức năng đăng ký
 	@RequestMapping("/register")
@@ -63,19 +87,26 @@ public class AppController {
 		User user = new User();
 		model.addAttribute("user", user);
 
-		return "register";
+		// Chặn vào register sau khi đã login
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+			return "register";
+		}
+
+		return "redirect:/";
 	}
 
 	@RequestMapping(value = "/register-save", method = RequestMethod.POST)
-	public String saveRegister(@Validated @ModelAttribute("user") User user, BindingResult result, Model model, @Param("confirmPassword") String confirmPassword) {
-		if(!confirmPassword.equals(user.getPassword())) {
+	public String saveRegister(@Validated @ModelAttribute("user") User user, BindingResult result, Model model,
+			@Param("confirmPassword") String confirmPassword) {
+		if (!confirmPassword.equals(user.getPassword())) {
 			model.addAttribute("confirmPassError", "Mật khẩu không trùng khớp");
 		}
-		
-		if(result.hasErrors() || !confirmPassword.equals(user.getPassword())) {
+
+		if (result.hasErrors() || !confirmPassword.equals(user.getPassword())) {
 			return "register";
 		}
-		
+
 		int strength = 10; // work factor of bcrypt
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(strength, new SecureRandom());
 		String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
@@ -86,36 +117,50 @@ public class AppController {
 		return "redirect:/login";
 	}
 
-	//Trang sản phẩm
-		@RequestMapping("/products")
-		public String viewProductsPage(Model model) {
-			List<Product> listProducts = productService.listAll();
-			model.addAttribute("listProducts", listProducts);
-			
-			List<Category> listCategory = categoryService.listAll();
-			model.addAttribute("listCategory", listCategory);
-			
-			return "products";
-		}
-		
-		@RequestMapping("/products/{id}")
-		public String viewProductsByCatPage(Model model, @PathVariable int id) {
-			List<Product> listProducts = productService.listProductsByCat(id);
-			model.addAttribute("listProducts", listProducts);
-			
-			List<Category> listCategory = categoryService.listAll();
-			model.addAttribute("listCategory", listCategory);
-			
-			return "products";
-		}
-		
-		@RequestMapping("/product/{id}")
-		public String viewDetailPage(Model model, @PathVariable int id) {
-			Product product = productService.get(id);
-			model.addAttribute("product", product);
-			
-			return "detail";
-		}
+	// Trang sản phẩm
+	@RequestMapping("/products")
+	public String viewProductsPage(Model model) {
+		List<Product> listProducts = productService.listAll();
+		model.addAttribute("listProducts", listProducts);
+		model.addAttribute("categoryId", 0);
+
+		List<Category> listCategory = categoryService.listAll();
+		model.addAttribute("listCategory", listCategory);
+
+		return "products";
+	}
+
+	@RequestMapping("/products/{id}")
+	public String viewProductsByCatPage(Model model, @PathVariable int id) {
+		List<Product> listProducts = productService.listProductsByCat(id);
+		model.addAttribute("listProducts", listProducts);
+		model.addAttribute("categoryId", id);
+
+		List<Category> listCategory = categoryService.listAll();
+		model.addAttribute("listCategory", listCategory);
+
+		return "products";
+	}
+
+	@RequestMapping("/product/{id}")
+	public String viewDetailPage(Model model, @PathVariable int id) {
+		Product product = productService.get(id);
+		model.addAttribute("product", product);
+
+		// Lấy ra các sản phẩm tương tự
+		int categoryId = Math.toIntExact(product.getCategory().getId());
+		List<Product> similarProducts = productService.listProductsByCat(categoryId);
+		similarProducts.removeIf(p -> (p.getId().equals(product.getId())));
+
+		// Lấy ngẫu nhiên 4 sản phẩm
+		Collections.shuffle(similarProducts);
+		int randomSeriesLength = 4;
+		List<Product> randomSimilarProducts = similarProducts.subList(0, randomSeriesLength);
+
+		model.addAttribute("similarProducts", randomSimilarProducts);
+
+		return "detail";
+	}
 
 	@RequestMapping("/cart")
 	public String viewCartPage(Model model) {
@@ -125,7 +170,16 @@ public class AppController {
 		return "cart";
 	}
 
-	// Chức năng của quản lý
+	// Chức năng xem thông tin cá nhân
+	@RequestMapping("/profile")
+	public String viewProfilePage(Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		model.addAttribute("user", userService.findByUsername(userDetails.getUsername()));
+		return "profile";
+	}
+
+	// =====CHỨC NĂNG CỦA QUẢN LÝ=====
 	@RequestMapping("/admin")
 
 	public String viewAdminPage(Model model) {
@@ -137,12 +191,12 @@ public class AppController {
 		return "admin";
 	}
 
-	// Chức năng của nhân viên kho
+	// ======CHỨC NĂNG CỦA NHÂN VIÊN KHO=====
 	@RequestMapping("/storehouse")
 	public String viewStorehousePage(Model model) {
 		List<Product> listProducts = productService.listAll();
 		model.addAttribute("listProducts", listProducts);
-		
+
 		List<Category> listCategory = categoryService.listAll();
 		model.addAttribute("listCategory", listCategory);
 
@@ -162,7 +216,7 @@ public class AppController {
 	public String showAddProductPage(Model model) {
 		Product product = new Product();
 		model.addAttribute("product", product);
-		
+
 		List<Category> listCategory = categoryService.listAll();
 		model.addAttribute("listCategory", listCategory);
 
@@ -170,29 +224,30 @@ public class AppController {
 	}
 
 	public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/images";
-	
+
 	@RequestMapping(value = "/save-product", method = RequestMethod.POST)
-	public String saveProduct(@Validated @ModelAttribute("product") Product product, BindingResult result, Model model, @RequestParam("imageFile") MultipartFile file, @RequestParam("editId") String id) {
-		if(file.isEmpty()) {
+	public String saveProduct(@Validated @ModelAttribute("product") Product product, BindingResult result, Model model,
+			@RequestParam("imageFile") MultipartFile file, @RequestParam("editId") String id) {
+		if (file.isEmpty()) {
 			model.addAttribute("imgError", "Vui lòng chọn hình ảnh sản phẩm");
 		}
-		
-		if(result.hasErrors()) {
+
+		if (result.hasErrors()) {
 			List<Category> listCategory = categoryService.listAll();
 			model.addAttribute("listCategory", listCategory);
 			return "add-product";
 		}
-		
+
 		String oriFileName = file.getOriginalFilename();
-		
+
 		// Cập nhật sản phẩm
-		if(!id.equals("")) {
+		if (!id.equals("")) {
 			Product oldProduct = productService.get(Long.parseLong(id));
-			
+
 			product.setId(Long.parseLong(id));
 			product.setImage(oldProduct.getImage());
-			
-			if(!oriFileName.equals("")) {
+
+			if (!oriFileName.equals("")) {
 				// Xóa ảnh cũ
 				Path path = Paths.get(UPLOAD_DIRECTORY + "/" + oldProduct.getImage().split("/")[2]);
 				try {
@@ -203,21 +258,21 @@ public class AppController {
 				}
 			}
 		}
-		
-		if(!oriFileName.equals("")) {
+
+		if (!oriFileName.equals("")) {
 			StringBuilder fileNames = new StringBuilder();
-	        Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, file.getOriginalFilename());
-	        fileNames.append(file.getOriginalFilename());
-	        try {
+			Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, file.getOriginalFilename());
+			fileNames.append(file.getOriginalFilename());
+			try {
 				Files.write(fileNameAndPath, file.getBytes());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-	        product.setImage("/images/" + fileNames.toString());
+
+			product.setImage("/images/" + fileNames.toString());
 		}
-		
+
 		productService.save(product);
 
 		return "redirect:/storehouse";
@@ -227,21 +282,12 @@ public class AppController {
 	public String editProduct(Model model, @PathVariable(name = "id") int id) {
 		Product product = productService.get(id);
 		model.addAttribute("product", product);
-		
+
 		List<Category> listCategory = categoryService.listAll();
 		model.addAttribute("listCategory", listCategory);
-		
+
 		return "add-product";
 	}
-	
-//	@RequestMapping("/edit/{id}")
-//	public ModelAndView showEditProductPage(@PathVariable(name = "id") int id) {
-//		ModelAndView mav = new ModelAndView("edit_product");
-//		Product product = productService.get(id);
-//		mav.addObject("product", product);
-//
-//		return mav;
-//	}
 
 	@RequestMapping("/delete-product/{id}")
 	public String deleteProduct(@PathVariable(name = "id") int id) {
@@ -256,4 +302,12 @@ public class AppController {
 		productService.delete(id);
 		return "redirect:/storehouse";
 	}
+	
+	// =====CHỨC NĂNG CỦA KẾ TOÁN=====
+		@RequestMapping("/accountant")
+
+		public String viewAccountantPage(Model model) {
+
+			return "accountant";
+		}
 }

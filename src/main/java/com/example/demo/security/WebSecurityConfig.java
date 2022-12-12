@@ -1,4 +1,4 @@
-package com.example.demo.sercurity;
+package com.example.demo.security;
 
 
 import java.io.IOException;
@@ -30,30 +30,48 @@ import com.example.demo.user.User;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
+	
 	@Autowired
-    private UserDetailsService userDetailsService;	
+	private SimpleAuthenticationSuccessHandler successHandler;
 	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/js/**","/css/**","/images/**","/","/products","/register","/login","/products").permitAll()
-			.anyRequest().authenticated().and()
+			.antMatchers("/js/**","/css/**","/images/**","/","/products","/register","/login","/product/{id}").permitAll()
+			// Chỉ cho người có role khách hàng vào
+			.antMatchers("/cart")
+            .hasAnyAuthority("1")
+			// Chỉ cho người có role quản lý vào
+            .antMatchers("/admin/**")
+            .hasAnyAuthority("2")
+            // Chỉ cho người có role quản lý kho vào
+            .antMatchers("/storehouse/**","/add-product/**","/edit-product/**")
+            .hasAnyAuthority("3")
+            .anyRequest().authenticated()
+            .and()
 			.formLogin(
 					form -> form
-						.loginPage("/login")
+						.loginPage("/login?permit")
 					    .usernameParameter("email")
 					    .passwordParameter("password")
 						.loginProcessingUrl("/login")
-						.defaultSuccessUrl("/default")
+						.successHandler(successHandler) 
 						.failureUrl("/login?fail")
 				)
 			.logout()
 			.invalidateHttpSession(true)
 			.clearAuthentication(true)
+			.deleteCookies("JSESSIONID")
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 			.logoutSuccessUrl("/login?logout")
-			.permitAll();
-
+			.permitAll()
+			.and()
+			//Ghi nhớ đăng nhập 2 ngày
+            .rememberMe()
+            .rememberMeParameter("remember-me")
+            .key("uniqueAndSecret")   
+            .tokenValiditySeconds(2*24*60*60);
+			
 		return http.build();
 	}
 	
