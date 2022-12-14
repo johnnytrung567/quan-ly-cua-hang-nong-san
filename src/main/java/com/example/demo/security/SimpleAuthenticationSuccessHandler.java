@@ -30,6 +30,8 @@ public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccess
         	 redirectStrategy.sendRedirect(request, response, "/admin");
          } else if (role.equals("[3]")) {
         	 redirectStrategy.sendRedirect(request, response, "/storehouse");
+         } else if (role.equals("[4]")) {
+        	 redirectStrategy.sendRedirect(request, response, "/accountant");
          }
 			/*
 			 * System.out.println(role); System.out.println(role.equals("1"));

@@ -7,7 +7,7 @@ html {
 	box-sizing: inherit;
 }
 
-body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+/* body, h1, h2, h3, h4, h5, h6, p, ol, ul {
 	margin: 0;
 	padding: 0;
 	font-weight: 400;
@@ -15,11 +15,10 @@ body, h1, h2, h3, h4, h5, h6, p, ol, ul {
 	color: #333;
 	font-family: 'Roboto', sans-serif;
 }
-
+ */
 ol, ul {
 	list-style: none;
 }
-
 
 img {
 	max-width: 100%;
@@ -99,6 +98,11 @@ img {
 	cursor: pointer;
 }
 
+.cart-img {
+	height: 80px;
+	object-fit: cover;
+}
+
 .user-features .login-box button {
 	font-weight: 500;
 	font-size: 12px;
@@ -160,25 +164,26 @@ img {
 
 .product-item-price {
 	color: #6abd45;
-	font-size: 18px;
+	font-size: 28px;
 	font-weight: 500;
 }
 
 .product-item-buy {
-  display: block;
-  text-align: center;
-  padding: 10px 0px;
-  width: 100%;
-  color: white;
-  transition: 0.3s;
-  background: #6abd45;
-  cursor: pointer;
+	display: block;
+	text-align: center;
+	padding: 10px 0px;
+	width: 100%;
+	color: white;
+	transition: 0.3s;
+	background: #6abd45;
+	cursor: pointer;
 }
+
 .product-item-buy:hover {
-  text-decoration: none;
-  color: white;
-  transition: 0.3s;
-  background-color: #5ba13b; 
+	text-decoration: none;
+	color: white;
+	transition: 0.3s;
+	background-color: #5ba13b;
 }
 
 .footer {
@@ -241,13 +246,13 @@ img {
 .adjust-btn {
 	height: 38px;
 	width: 38px;
-	background-color: rgba(29, 209, 161, 0.1);
-	border-color: rgba(29, 209, 161, 0.2);
+	background-color: rgba(106, 189, 69, 0.2);
+	border-color: rgba(106, 189, 69, 0.3);
 }
 
 .adjust-btn:hover {
-	background-color: rgba(29, 209, 161, 0.2);
-	border-color: rgba(29, 209, 161, 0.2);
+	background-color: rgba(106, 189, 69, 0.3);
+	border-color: rgba(106, 189, 69, 0.3);
 	color: #6abd45;
 }
 
@@ -302,8 +307,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 	color: rgba(106, 189, 69, 0.8);
 }
 
-#product-list td:hover a,
-#product-list td.active a {
+#product-list td:hover a, #product-list td.active a {
 	color: #fff;
 }
 
@@ -411,16 +415,22 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 
 #product .buy {
 	border: none;
-	background-color: #d26e4b;
+	background-color: #6abd45;
 	width: 200px;
 	height: 40px;
 	margin-left: 40px;
 	margin-top: 100px;
 }
 
-#product .buy a {
+#product .buy:hover, .checkout-btn:hover {
+	background-color: #5ba13b;
 	color: white;
-	text-decoration: none;
+}
+
+.checkout-btn {
+	background-color: #6abd45;
+	color: white;
+	font-size: 18px;
 }
 
 #product .detailBtn {

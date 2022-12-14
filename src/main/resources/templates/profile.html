@@ -27,29 +27,46 @@
 
 <body>
 	<!-- ---Header--- -->
-	<header th:replace="fragment/header :: header"></header>
+	<header th:replace="fragment/header :: header(${cartTotalQuantity})"></header>
 
-	<div class="profile container border rounded bg-light mt-5 mb-5">
-		<div class="profile-info row">
+	<div class="profile container border rounded bg-light my-5">
+		<div class="profile-info row p-4">
 			<div class="title col-md-12 ">
 				<h1 class="user">Thông tin cá nhân</h1>
 				<div class="d-flex flex-column align-items-center text-center ">
 					<img class="rounded-circle pt-2" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
 				</div>
 			</div>
-			<div class="form col-md-12 pb-5">
-				<label class="labels pl-1">Họ và tên</label>
-				<input type="text" class="form-control" disabled th:value="${user.fullname}"> 
-				<label class="labels pl-1">Email</label>
-				<input type="text" class="form-control" disabled th:value="${user.email}"> 
-				<label class="labels pl-1">Số điện thoại</label>
-				<input type="text" class="form-control" disabled th:value="${user.phone}"> 
-				<label class="labels pl-1">Địa chỉ</label> 
-				<input type="text" class="form-control" disabled th:value="${user.address}">
-				<label class="labels pl-1">Chức vụ</label> 
-				<input type="text" class="form-control" disabled th:value="${user.role.description}">
-			</div>
-			<!-- <a href="#" class="submit">Save profile</a> -->
+			<form class="form col-md-12 pb-3">
+				<div class="form-group">
+					<label class="labels pl-1">Họ và tên</label>
+					<input type="text" class="form-control" disabled th:value="${user.fullname}">
+				</div>	
+				<div class="form-group">
+					<label class="labels pl-1">Email</label>
+					<input type="text" class="form-control" disabled th:value="${user.email}">
+				</div>
+				<div class="form-group">
+					<label class="labels pl-1">Số điện thoại</label>
+					<input type="text" class="form-control" disabled th:value="${user.phone}">
+				</div>
+				<div class="form-group">
+					<label class="labels pl-1">Địa chỉ</label> 
+					<input type="text" class="form-control" disabled th:value="${user.address}">
+				</div>
+				<div class="form-group">
+					<label class="labels pl-1">Chức vụ</label> 
+					<input type="text" class="form-control mb-4" disabled th:value="${user.role.description}">
+				</div>
+				
+				<a th:href="@{/change-password}" class="btn btn-success p-2">Đổi mật khẩu</a>
+  				
+  				<a th:href="@{/change-userInfo}" class="btn btn-primary p-2">Cập nhật thông tin</a>
+  				
+					<a th:if="${user.role.id} == 1" class="btn btn-secondary p-2"
+						th:href="@{/history}">Lịch sử mua hàng</a>
+  				
+			</form>
 		</div>
 	</div>
 

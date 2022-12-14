@@ -29,7 +29,7 @@
 </head>
 
 <body>
-	<header th:replace="fragment/header :: header"></header>
+	<header th:replace="fragment/header :: header(${cartTotalQuantity})"></header>
 
 	<section class="slider-wrap">
 		<div class="container-fluid">
@@ -100,7 +100,7 @@
 								<h3 class="product-item-name" th:text="${product.title}"></h3>
 							</a> <span class="product-item-price d-block mt-auto"
 								th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + đ"></span>
-							<a href="#" class="product-item-buy">Thêm vào giỏ</a>
+							<a th:href="@{'/cart/add/' + ${product.id}}" class="product-item-buy">Thêm vào giỏ</a>
 						</div>
 					</div>
 				</div>
@@ -124,7 +124,7 @@
 									<h3 class="product-item-name" th:text="${product.title}"></h3>
 								</a> <span class="product-item-price d-block mt-auto"
 									th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + đ"></span>
-								<a href="#" class="product-item-buy">Thêm vào giỏ</a>
+								<a th:href="@{'/cart/add/' + ${product.id}}" class="product-item-buy">Thêm vào giỏ</a>
 							</div>
 						</div>
 					</div>

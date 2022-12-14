@@ -1,315 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giỏ hàng</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Montserrat:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="./css/nghi.css">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Giỏ hàng</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Montserrat:wght@400;500;600;700&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="/css/nghi.css">
+<link rel="stylesheet" type="text/css" href="/css/fragment.css">
 </head>
 
 <body>
-    <nav class="heading navbar navbar-expand-lg navbar-light px-lg-5">
-        <a class="logo-box navbar-brand text-white" href="">nongsan<span>.com</span></a>
-        <form class="form-inline my-2 my-lg-0 pl-lg-5 mx-auto">
-          <input class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm nhanh">
-          <button class="btn btn-primary my-2 my-sm-0" type="submit">Tìm</button>
-        </form>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
-          aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-    
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-          <ul class="nav-list navbar-nav ml-auto mt-2 mt-lg-0">
-            <li class="nav-item pr-lg-4">
-              <a class="nav-link text-white" href=""><i class="fas fa-home"></i></a>
-            </li>
-            <li class="cart nav-item pr-lg-4">
-              <a class="nav-link text-white" href="">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="text-center">0</span>
-              </a>
-            </li>
-    
-            <li id="profile" class="nav-item pr-lg-4">
-              <a class="nav-link text-white" href="bill.php"><i class="fas fa-user"></i></a>
-            </li>
-            <li class="nav-item pr-lg-4">
-              <button onclick="window.history.back()" class="btn btn-outline-light p-2">Quay lại</button>
-            </li>
-          </ul>
-    
-        </div>
-      </nav>
+	<header th:replace="fragment/header :: header(${totalQuantity})"></header>
 
-    <div style="min-height: calc(100vh - 265px);" class="container mt-5">
-        <div class="row">
-            <div class="col-8">
-                <h5 id="total" class="font-weight-bolder">Sản phẩm
-                    <span class="text-primary font-weight-bold">( 2 )</span>
-                </h5>
-                <hr>
-                <div id="cart-row" class="row my-3">
-                    <div class="col-3">
-                        <img class="border rounded" src="./images/cachua.jpg" alt="">
-                    </div>
-                    <div class="col-4">
-                        Cà chua bi Đà Lạt 1 kg
-                    </div>
-                    <div class="text-color font-weight-bolder col-2">
-                        60.000₫
-                    </div>
-                    <div class="col-3 text-center">
-                        <button onclick="" id="decrease" class="adjust-btn btn btn-outline-primary">-</button>
-                        <input id="quantity" class="quantity-number" type="number" value="1" disabled>
-                        <button onclick="" id="increase" class="adjust-btn btn btn-outline-primary">+</button>
-                        <div style="cursor: pointer; color: red" class="p-2"><i class="fas fa-trash-alt"></i>Xóa</div>
-                    </div>
-                </div>
-                <p class="w-100 bg-light" style="height: 3px;"></p>
-            </div>
+	<div style="min-height: calc(100vh - 265px);" class="container mt-5">
+		<div class="row">
+			<div class="col-12 col-sm-8">
+				<h5 id="total" class="font-weight-bolder">
+					Sản phẩm <span class="text-success font-weight-bold"
+						th:text="'( ' + ${totalQuantity} + ' )'">( 0 )</span>
+				</h5>
+				<div id="cart-row" class="row my-3">
+					<th:block th:each="item : ${listCart}">
+						<hr class="w-100"
+							th:with="total = ${total + item.quantity * item.product.price}">
+						<div class="col-3">
+							<img class="rounded cart-img" th:src="${item.product.image}"
+								alt="">
+						</div>
+						<div class="col-4" th:text="${item.product.title}">Cà chua
+							bi Đà Lạt 1 kg</div>
+						<div class="text-color font-weight-bolder col-2"
+							th:text="${#numbers.formatDecimal(item.product.price, 0, 'COMMA', 0, 'POINT')} + đ"></div>
+						<div class="col-3 text-center">
+							<div class="d-flex align-items-center justify-content-between">
+								<a th:href="${item.quantity} > 1 ? (@{'/cart/update/' + ${item.id} + '/decrease'}) : (@{'/cart/delete/' + ${item.id}})" class="text-decoration-none text-success adjust-btn btn btn-outline-success">-</a>
+								<input id="quantity" class="quantity-number" type="number"
+									th:value="${item.quantity}" disabled>
+								<a th:href="@{'/cart/update/' + ${item.id} + '/increase'}" class="text-decoration-none text-success adjust-btn btn btn-outline-success">+</a>
+							</div>
+							<div style="cursor: pointer;" class="p-2">
+								<a th:href="@{'/cart/delete/' + ${item.id}}" class="text-danger text-decoration-none"><i class="fas fa-trash-alt"></i> Xóa</a>
+							</div>
+						</div>
+					</th:block>
+				</div>
+				<p class="w-100 bg-light" style="height: 3px;"></p>
+			</div>
 
-            <div class="col-4">
-                <div class=" border rounded py-3">
-                    <!-- <p class="text-primary font-weight-bold px-3">Sử dụng phiếu quà tặng, giảm giá</p>
-                    <div class="input-group p-3">
-                        <input type="text" class="form-control mr-2" placeholder="Mã giảm giá">
-                        <button style="border-radius: 100rem;" class="btn btn-outline-primary">Áp dụng</button>
-                    </div>
-                    <p class="w-100 bg-light" style="height: 3px;"></p> -->
-
-                    <div class="d-flex justify-content-between p-3">
-                        <p class="font-weight-bold">Thành tiền</p>
-                        <div class="text-right">
-                            <p id="price" class="product-item-price">0</p>
-                            <p>(Đã bao gồm VAT)</p>
-                        </div>
-                    </div>
-                    <div class="px-3">
-                        <button onclick="" style="border-radius: 100rem;" class="btn btn-success w-100">
-                            Tiếp tục
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal nhập thông tin khách hàng -->
-    <div class="modal fade" id="infoModal">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <form id="add-user" method="post" action="./order.php">
-                        <div class="form-group">
-                            <label for="fullname">Họ và tên</label>
-                            <input type="text" name="fullname" id="fullname" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Số điện thoại</label>
-                            <input type="number" name="phone" id="phone" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="address">Địa chỉ</label>
-                            <input type="text" name="address" id="address" class="form-control" required>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-success px-5">Xác nhận</button>
-                            <button type="reset" class="btn btn-danger px-5 ml-2">Xóa hết</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer class="footer mt-md-5 pb-3">
-        <div class="container">
-            <div class="footer-info row">
-                <div class="logo-box col-md-2 col-sm-12 pt-3">
-                    <div class="logo">Nông Sản</div>
-                </div>
-
-                <div class="contact col-md-6 col-sm-12 pt-3">
-                    <p class="contact-text">công ty cổ phần nông sản sạch</p>
-                    <p><strong>Điện thoại: </strong>012 345 6789</p>
-                    <p><strong>Email: </strong>nongsan@gmail.com</p>
-                    <p><strong>Văn phòng: </strong>19 Nguyễn Hữu Thọ, P.Tân Phong, Q.7, HCM</p>
-                </div>
-
-                <div class="social col-md-4 col-sm-12 pt-3">
-                    <p class="social-text">Kết nối với chúng tôi</p>
-                    <div class="social-icon">
-                        <i class="fab fa-facebook px-3"></i>
-                        <i class="fab fa-youtube px-3"></i>
-                        <i class="fab fa-instagram px-3"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <div id="fail-alert" style="top: 10%; right: 0;" class="d-none alert alert-danger alert-dismissable position-fixed">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <span>Cửa hàng chỉ còn <strong></strong> sản phẩm này</span>
-    </div>
-
-    <!-- Modal cannot continue -->
-    <div class="modal" id="continueFail">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    Giỏ hàng rỗng, không thể tiếp tục
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button onclick="history.back()" class="btn btn-success px-5 border">Quay lại</button>
-                    <button class="btn btn-light px-5 ml-2 border" data-dismiss="modal">Hủy</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- <script>
-        $(document).ready(function() {
-            checkLogin('<?= $user?>')
-            renderCart('<?= $user?>')
-        })
-
-        // render cart by username
-        function renderCart(user) {
-            const username = {username: user}
-            let total = 0
-            let price = 0
-
-            $('#total span').remove()
-            $('#cart-row div').remove()
-            $("#price").html(price)
-
-            $.post("http://localhost:8080/api/read_cart_by_username.php", username, function (res) {
-                const data = res.data
-                for (let i = 0; i < data.length; i++) {
-                    let item = data[i]
-
-                    $('#cart-row').append(`
-                        <div class="col-2">
-                            <img class="border rounded p-1" src="./images/${item.IMAGE}" alt="">
-                        </div>
-                        <div class="col-5">
-                            ${item.TITLE}
-                        </div>
-                        <div class="text-color font-weight-bold col-2">
-                            ${parseInt(item.PRICE).toLocaleString('vi', {style : 'currency', currency : 'VND'})}
-                        </div>
-                        <div class="col-3 text-center">
-                            <button onclick="changeQuantity(${item.ID_PRODUCT}, this, '${user}')" id="decrease"
-                                class="adjust-btn btn btn-outline-primary">-</button>
-                            <input id="quantity" class="quantity-number" type="number" value="${item.QUANTITY_CART}" disabled>
-                            <button onclick="changeQuantity(${item.ID_PRODUCT}, this, '${user}')" id="increase"
-                                class="adjust-btn btn btn-outline-primary">+</button>
-                            <div><span onclick="deleteCart(${item.ID_CART}, '${user}')" style="cursor: pointer;"><i class="fas fa-trash-alt"></i>Xóa</span></div>
-                        </div>`)
-
-                    total += item.QUANTITY_CART
-                    price += item.QUANTITY_CART * item.PRICE
-                }
-
-                $('#total').append(`<span class="text-dark font-weight-normal">( ${total} )</span>`)
-
-                $('#price').html(parseInt(price).toLocaleString('vi', {style : 'currency', currency : 'VND'}))
-            }, "json")
-        }
-
-        // Delete cart by id
-        function deleteCart(id, user) {
-            $.post("http://localhost:8080/api/delete_cart.php", {id: id}, function (res) {
-                renderCart(user)
-            }, 'json')
-        }
-
-        // increase and decrese quantiy incart
-        function changeQuantity(idProduct, btn, user) {
-            const action = $(btn).attr("id")
-
-            const updCart = {
-                id_product: idProduct,
-                action: action
-            }
-
-            $.post("http://localhost:8080/api/update_cart_quantity.php", updCart, function (res) {
-                renderCart(user)
-            }, 'json') 
-
-            let quantity = parseInt($('#quantity').val())
-            if(action === 'decrease') {
-                if(quantity > 1) {
-                    $('#quantity').val(quantity - 1)
-                }
-            }
-            else {
-                $('#quantity').val(quantity + 1)
-            }  
-        }
-
-        // check whether have any product in cart or not
-        function checkContinue() {
-            if($('#price').html() === '0'){
-                $('#continueFail').modal('show')
-            }
-            else {
-                $('#infoModal').modal('show')
-            }
-        }
-
-        // show alert success or fail
-        function showAlert(alertBox) {
-            $(alertBox).toggleClass('d-none')
-            setTimeout(() => $(alertBox).fadeOut(1000), 3000)
-        }
-
-        function checkLogin(user) {
-            if(user !== '') {
-                $('#login').hide()
-                $('#logout').show()
-                $('#profile').show()
-            }
-            else {
-                $('#login').show()
-                $('#logout').hide()
-                $('#profile').hide()
-            }
-        }
-    </script> -->
+			<div class="col-12 col-sm-4">
+				<div class=" border rounded py-3">
+					<div class="d-flex justify-content-between p-3">
+						<p class="font-weight-bold">Thành tiền</p>
+						<div class="text-right">
+							<p id="price" class="product-item-price text-lg"
+								th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')} + đ">0đ</p>
+							<p>(Đã bao gồm VAT)</p>
+						</div>
+					</div>
+					<div class="px-3">
+						<a style="border-radius: 100rem;"
+							class="btn btn-success w-100" th:href="${totalQuantity} > 0 ? @{/checkout} : @{#}">Tiếp tục</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="fragment/footer :: footer"></footer>
 
 
 </body>
