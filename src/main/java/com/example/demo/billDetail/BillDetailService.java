@@ -1,24 +1,31 @@
-package com.example.demo.category;
+package com.example.demo.billDetail;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class CategoryService {
+public class BillDetailService {
 
 	@Autowired
-	private CategoryRepository repo;
+	private BillDetailRepository repo;
 	
-	public List<Category> listAll() {
+	public List<BillDetail> listAll() {
 		return repo.findAll();
 	}
+
+	public void save(BillDetail product) {
+		repo.save(product);
+	}
 	
-	public Category get(long id) {
+	public BillDetail get(long id) {
 		return repo.findById(id).get();
+	}
+	
+	public void delete(long id) {
+		repo.deleteById(id);
 	}
 }

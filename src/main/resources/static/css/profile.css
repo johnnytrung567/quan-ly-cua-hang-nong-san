@@ -6,26 +6,6 @@
 
 .profile .profile-info .user {
   text-align: center;
-  padding-top: 50px;
   font-size: 40px;
   text-transform: uppercase;
 }
-.profile .profile-info .form .labels {
-  margin-top: 20px;
-}
-/* .profile-info .submit {
-  padding: 20px 50px;
-  text-decoration: none;
-  display: block;
-  margin: 20px auto;
-  background: #86ba09;
-  border-radius: 50px;
-  color: white;
-  transition: 0.3s;
-} */
-/* .profile-info .submit:hover {
-  transition: 0.3s;
-  background: #cbeb81;
-} */
-
-

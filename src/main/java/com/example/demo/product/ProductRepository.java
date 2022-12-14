@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
-	@Query(value = "SELECT * FROM Product p where p.category_id = :category", nativeQuery = true)
+	@Query(value = "SELECT * FROM Product p where p.category_id = :category ORDER BY id DESC", nativeQuery = true)
 	List<Product> listProductsByCat(@Param("category") int category);
 }

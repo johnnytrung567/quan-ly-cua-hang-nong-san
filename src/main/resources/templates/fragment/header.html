@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
 <meta charset="UTF-8" />
@@ -13,12 +13,12 @@
 <body style="background-color: rgba(202, 202, 202, 0.2);">
 	<!-- ---Header--- -->
 	<nav class="heading navbar navbar-expand-lg navbar-light px-lg-5"
-		th:fragment="header">
+		th:fragment="header(totalQuantity)">
 		<a class="logo-box navbar-brand text-white pr-5" href=""
 			th:href="@{/}">nongsan<span>.com</span></a>
-		<form class="form-inline my-2 my-lg-0 pl-lg-5 mx-auto">
-			<input class="form-control" type="search"
-				placeholder="Tìm kiếm nhanh"> <a class="search" href="">Tìm</a>
+		<form class="form-inline my-2 my-lg-0 pl-lg-5 mx-auto flex-nowrap">
+			<input class="form-control shadow-none" type="search"
+				placeholder="Tìm kiếm nhanh"> <a class="search text-decoration-none" href="#">Tìm</a>
 		</form>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarTogglerDemo02"
@@ -33,22 +33,24 @@
 					href="" th:href="@{/}"><i class="fas fa-home"></i></a></li>
 				<li class="cart nav-item pr-lg-4"><a
 					class="nav-link text-white" href="" th:href="@{/cart}"> <i
-						class="fas fa-shopping-cart"></i> <span class="text-center">0</span>
+						class="fas fa-shopping-cart"><span class="text-center" th:text="${totalQuantity}">0</span></i> 
 				</a></li>
-				<li id="profile" class="nav-item pr-lg-4" sec:authorize="isAnonymous()" th:href="@{/login}">
-					<a th:href="@{/login}" ><button class="btn btn-outline-light p-2" >Đăng nhập</button></a>
-				</li>
-				<li id="profile" class="nav-item pr-lg-4" sec:authorize="isAuthenticated()"><a
+				<li id="profile" class="nav-item pr-lg-4"
+					sec:authorize="isAnonymous()" th:href="@{/login}"><a
+					th:href="@{/login}" class="text-decoration-none"><button
+							class="btn btn-outline-light p-2">Đăng nhập</button></a></li>
+				<li id="profile" class="nav-item pr-lg-4"
+					sec:authorize="isAuthenticated()"><a
 					class="nav-link text-white" th:href="@{/profile}"><i
-						class="fas fa-user"></i></a>
-				</li>
+						class="fas fa-user"></i></a></li>
 				<li class="nav-item pr-lg-4" sec:authorize="isAuthenticated()">
-					<a th:href="@{/logout}"><button class="btn btn-outline-light p-2" >Đăng xuất</button></a>
-				</li>		
+					<a th:href="@{/logout}" class="text-decoration-none"><button
+							class="btn btn-outline-light p-2">Đăng xuất</button></a>
+				</li>
 				<li class="nav-item pr-lg-4">
 					<button onclick="window.history.back()"
 						class="btn btn-outline-light p-2">Quay lại</button>
-				</li>			
+				</li>
 			</ul>
 
 		</div>
@@ -56,10 +58,20 @@
 
 
 	<!--   Header for staffs -->
-	<nav class="heading navbar navbar-expand-lg navbar-light px-lg-5"
+	<nav class="heading navbar navbar-light px-lg-5"
 		th:fragment="header-staff">
 		<a class="logo-box navbar-brand text-white pr-5" href=""
 			th:href="@{/}">nongsan<span>.com</span></a>
+		<ul class="nav-list navbar-nav ml-auto mt-2 mt-lg-0 flex-row">
+			<li id="profile" class="nav-item pr-lg-4"
+				sec:authorize="isAuthenticated()"><a
+				class="nav-link text-white" style="background-color: transparent;" th:href="@{/profile}"><i
+					class="fas fa-user"></i></a></li>
+			<li class="nav-item pr-lg-4" sec:authorize="isAuthenticated()">
+				<a th:href="@{/logout}" class="text-decoration-none"><button
+						class="btn btn-outline-light p-2">Đăng xuất</button></a>
+			</li>
+		</ul>
 	</nav>
 </body>
 </html>

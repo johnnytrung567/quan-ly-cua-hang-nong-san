@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thanh toán</title>
+<title>Lịch sử mua hàng</title>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,37 +28,10 @@
 
 <body class="bg-light">
 	<!-- ---Header--- -->
-	<header th:replace="fragment/header :: header(${totalQuantity})"></header>
+	<header th:replace="fragment/header :: header(${cartTotalQuantity})"></header>
 
-	<div class="container py-5 my-5 border bg-white">
+	<div class="container py-5 my-5 border bg-white" style="min-height: calc(100vh - 66px - 199px);"> 
 		<div class="row">
-			<div class="col-lg-4 order-md-2 mb-4">
-				<h2 class="mb-3 font-weight-bold">Thông tin mua hàng</h2>
-				<form th:action="@{/checkout-save}" th:object="${bill}" method="post">
-					<div class="form-group">
-						<label for="name">Họ và tên:</label> <input type="text"
-							class="form-control" id="receiver" th:field="*{receiver}">
-							<small style="color: red; display: block"
-						th:if="${#fields.hasErrors('receiver')}" th:errors="*{receiver}"></small>
-					</div>
-					<div class="form-group">
-						<label for="phone">Số điện thoại:</label> <input type="text"
-							class="form-control" id="phone" th:field="*{phone}">
-							<small style="color: red; display: block"
-						th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></small>
-					</div>
-					<div class="form-group">
-						<label for="address">Địa chỉ:</label> <input type="text"
-							class="form-control" id="address" th:field="*{address}">
-							<small style="color: red; display: block"
-						th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></small>
-					</div>
-					<hr class="mb-4">
-					<button class="btn btn-lg btn-block font-weight-bold checkout-btn"
-						type="submit">MUA HÀNG</button>
-				</form>
-			</div>
-
 			<div class="col-lg-8 order-md-1 mb-4">
 				<h2 class="d-flex justify-content-between align-items-center mb-3">
 					<span class="text-muted font-weight-bold">Sản phẩm</span> <span

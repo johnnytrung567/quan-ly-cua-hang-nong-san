@@ -45,6 +45,10 @@ ol, ul {
 	transition: 0.3s;
 }
 
+.heading .form-inline .search:hover {
+	background-color: rgba(106, 189, 69, 0.3);
+}
+
 .logo-box {
 	font-family: 'Kaushan Script', cursive;
 	font-size: 32px;
@@ -59,19 +63,23 @@ ol, ul {
 	font-size: 20px;
 }
 
-.notification a, .cart a {
+.notification a, .cart a i {
 	position: relative;
 }
 
-.notification a span, .cart a span {
+.notification a span, .cart a i span {
 	font-size: 10px;
 	position: absolute;
-	top: 15%;
-	left: 65%;
+	top: -5px;
+	left: 18px;
 	background-color: orangered;
 	min-width: 13px;
 	height: 13px;
 	border-radius: 100rem;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
 }
 
 .user-features {
