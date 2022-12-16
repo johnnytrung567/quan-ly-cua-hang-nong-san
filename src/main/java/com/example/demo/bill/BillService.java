@@ -15,7 +15,11 @@ public class BillService {
 	private BillRepository repo;
 	
 	public List<Bill> listAll() {
-		return repo.findAll(Sort.by("id").descending());
+		return repo.findAll(Sort.by("createdAt").descending());
+	}
+	
+	public List<Bill> listBillsByCustomer(int customer) {
+		return repo.listBillsByCustomer(customer);
 	}
 
 	public Bill save(Bill product) {
@@ -28,5 +32,20 @@ public class BillService {
 	
 	public void delete(long id) {
 		repo.deleteById(id);
+	}
+	
+	// Thống kê
+	public Integer statisticByYear(int year) {
+		return repo.statisticByYear(year);
+	}
+	
+	public Integer statisticByQuarter(int year, int quarter) {
+		int minMonth = (quarter - 1) * 3 + 1;
+		int maxMonth = quarter * 3; 
+		return repo.statisticByQuarter(year, minMonth, maxMonth);
+	}
+	
+	public Integer statisticByMonth(int year, int month) {
+		return repo.statisticByMonth(year, month);
 	}
 }

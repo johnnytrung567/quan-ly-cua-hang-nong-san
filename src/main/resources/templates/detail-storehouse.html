@@ -37,6 +37,9 @@
 					<img class="mainImg" th:src="${product.image}" alt="" />
 				</div>
 				<div class="col-lg-6 desc">
+					<a th:href="@{/storehouse}">Quản lý sản phẩm</a> / <a style="font-size: 20px; font-weight: bold;"
+						th:href="@{'/products/' + ${product.category.id}}"
+						th:text="${product.category.name}"></a>
 					<div class="my-3">
 						<h2 class="font-weight-bold" th:text="${product.title}"></h2>
 					</div>

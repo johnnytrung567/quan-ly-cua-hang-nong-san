@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Montserrat:wght@400;500;600;700&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" href="/css/nghi.css">
+<link rel="stylesheet" href="/css/fragment.css">
+<title>Thống kê doanh thu</title>
+
+</head>
+
+<body class="bg-light">
+	<header th:replace="fragment/header :: header-staff"></header>
+	<div class="container" style="min-height: calc(100vh - 66px - 199px);">
+		<h3 class="text-center py-3">Thống kê doanh thu</h3>
+		<div class="row justify-content-center">
+			<form th:action="@{/statistic-save}" method="post" class="col-md-5 mb-3">
+				
+				<label for="category">Đơn vị thống kê:</label> <select id="period"
+					name="period" class="custom-select mb-3">
+					<optgroup label="Thống kê theo năm"></optgroup>
+					<th:block
+						th:each="i: ${#numbers.sequence(#dates.year(#dates.createNow()), 2020)}">
+						<option th:value="'year ' + ${i}" th:text="'Năm ' + ${i}" th:selected="${period == ('year ' + __${i}__)}"></option>
+					</th:block>
+
+					<optgroup label="Thống kê theo quý"></optgroup>
+					<th:block th:each="i: ${#numbers.sequence(1, 4)}">
+						<option th:value="'quarter ' + ${i}" th:text="'Quý ' + ${i}"  th:selected="${period == ('quarter ' + __${i}__)}"></option>
+					</th:block>
+
+					<optgroup label="Thống kê theo tháng"></optgroup>
+					<th:block th:each="i: ${#numbers.sequence(1, 12)}">
+						<option th:value="'month ' + ${i}" th:text="'Tháng ' + ${i}"  th:selected="${period == ('month ' + __${i}__)}"></option>
+					</th:block>
+				</select>
+				<p th:if="${total} != null">Tổng doanh thu: <strong style="font-size: 24px;" th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')} + đ"></strong></p>
+				<hr>
+				<div class="text-right mt-3">
+				<a class="btn btn-secondary px-4" th:href="@{/accountant}">Quay lại</a>
+				<button type="submit" class="btn btn-success px-4">Thống
+					kê</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<footer th:replace="fragment/footer :: footer"></footer>
+</body>
+
+</html>

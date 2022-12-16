@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.SecureRandom;
+import java.time.Year;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,11 +28,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.bill.Bill;
 import com.example.demo.bill.BillService;
-import com.example.demo.billDetail.BillDetailService;
+import com.example.demo.billDetails.BillDetails;
+import com.example.demo.billDetails.BillDetailsService;
 import com.example.demo.cart.Cart;
 import com.example.demo.cart.CartService;
 import com.example.demo.category.Category;
@@ -58,7 +59,7 @@ public class AppController {
 	@Autowired
 	private BillService billService;
 	@Autowired
-	private BillDetailService billDetailService;
+	private BillDetailsService billDetailsService;
 
 	@RequestMapping("/")
 	public String viewHomePage(Model model) {
@@ -115,11 +116,18 @@ public class AppController {
 	@RequestMapping(value = "/register-save", method = RequestMethod.POST)
 	public String saveRegister(@Validated @ModelAttribute("user") User user, BindingResult result, Model model,
 			@Param("confirmPassword") String confirmPassword) {
+		// Kiểm tra email đã được sử dụng chưa
+		List<User> listusers = userService.listAll();
+		boolean emailExists = listusers.stream().anyMatch(u -> u.getEmail().equals(user.getEmail()));
+		if (emailExists) {
+			model.addAttribute("emailExistsError", "Email này đã được sử dụng");
+		}
+
 		if (!confirmPassword.equals(user.getPassword())) {
 			model.addAttribute("confirmPassError", "Mật khẩu không trùng khớp");
 		}
 
-		if (result.hasErrors() || !confirmPassword.equals(user.getPassword())) {
+		if (result.hasErrors() || !confirmPassword.equals(user.getPassword()) || emailExists) {
 			return "register";
 		}
 
@@ -130,7 +138,7 @@ public class AppController {
 		Role customeRole = roleService.get(1);
 		user.setRole(customeRole);
 		userService.save(user);
-		return "redirect:/login";
+		return "redirect:/login?register";
 	}
 
 	// Trang sản phẩm
@@ -272,13 +280,41 @@ public class AppController {
 	}
 
 	@RequestMapping(value = "/checkout-save", method = RequestMethod.POST)
-	public String saveCheckoutPage(@Validated @ModelAttribute("bill") Bill bill, BindingResult result, Model model) {
+	public String saveCheckoutPage(@Validated @ModelAttribute("bill") Bill bill, BindingResult result, Model model,
+			@RequestParam("total") int total) {
 		if (result.hasErrors()) {
 			getCartInfo(model);
 			return "thanhtoan";
 		}
 
-//		Bill newBill = billService.save(bill);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		User user = userService.findByUsername(userDetails.getUsername());
+
+		bill.setTotal(total);
+		bill.setCustomer(user);
+
+		// Tạo hóa đơn
+		Bill newBill = billService.save(bill);
+
+		List<Cart> listCart = cartService.listCartItemsByCustomer(Math.toIntExact(user.getId()));
+
+		for (Cart cart : listCart) {
+			// Lưu sản phẩm vào chi tiết hóa đơn
+			BillDetails billDetail = new BillDetails();
+			billDetail.setBill(newBill);
+			billDetail.setProduct(cart.getProduct());
+			billDetail.setQuantity(cart.getQuantity());
+			billDetailsService.save(billDetail);
+
+			// Trừ sản phẩm trong kho
+			Product product = productService.get(cart.getProduct().getId());
+			product.setQuantity(product.getQuantity() - cart.getQuantity());
+			productService.save(product);
+
+			// Xóa sản phẩm khỏi giỏ hàng
+			cartService.delete(cart.getId());
+		}
 
 		return "redirect:/history";
 	}
@@ -301,10 +337,19 @@ public class AppController {
 	public String viewHistoryPage(Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		model.addAttribute("user", userService.findByUsername(userDetails.getUsername()));
+		User user = userService.findByUsername(userDetails.getUsername());
 
 		int cartTotalQuantity = getCartTotalQuantity();
 		model.addAttribute("cartTotalQuantity", cartTotalQuantity);
+
+		List<Bill> bills = billService.listBillsByCustomer(Math.toIntExact(user.getId()));
+		model.addAttribute("bills", bills);
+
+		// Lấy ra các sản phẩm trong từng bill
+		for (Bill bill : bills) {
+			List<BillDetails> billDetails = billDetailsService.listBillDetailsByBill(Math.toIntExact(bill.getId()));
+			model.addAttribute("billDetails" + bill.getId(), billDetails);
+		}
 
 		return "history";
 	}
@@ -314,7 +359,7 @@ public class AppController {
 	public String pageChangePassword(Model model) {
 		int cartTotalQuantity = getCartTotalQuantity();
 		model.addAttribute("cartTotalQuantity", cartTotalQuantity);
-		
+
 		return "change-password";
 	}
 
@@ -357,10 +402,10 @@ public class AppController {
 		if (oldPassword.equals("") || newPassword.equals("") || confirmPassword.equals("")
 				|| !confirmPassword.equals(newPassword) || newPassword.equals(oldPassword)
 				|| !bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
-			
+
 			int cartTotalQuantity = getCartTotalQuantity();
 			model.addAttribute("cartTotalQuantity", cartTotalQuantity);
-			
+
 			return "change-password";
 		}
 
@@ -379,7 +424,7 @@ public class AppController {
 
 		int cartTotalQuantity = getCartTotalQuantity();
 		model.addAttribute("cartTotalQuantity", cartTotalQuantity);
-		
+
 		return "change-userInfo";
 	}
 
@@ -402,10 +447,10 @@ public class AppController {
 
 		if (fullname.equals("") || phone.equals("") || address.equals("")) {
 			model.addAttribute("user", user);
-			
+
 			int cartTotalQuantity = getCartTotalQuantity();
 			model.addAttribute("cartTotalQuantity", cartTotalQuantity);
-			
+
 			return "change-userInfo";
 		}
 
@@ -423,10 +468,96 @@ public class AppController {
 	public String viewAdminPage(Model model) {
 		List<User> listCustomers = userService.listUsers(1, 1);
 		List<User> listStaffs = userService.listUsers(3, 4);
+		List<Role> listRole = roleService.listAll();
+		listRole.remove(1);
 		model.addAttribute("listCustomers", listCustomers);
 		model.addAttribute("listStaffs", listStaffs);
+		model.addAttribute("listRole", listRole);
 
 		return "admin";
+	}
+
+	@RequestMapping("/admin/{id}")
+	public String viewDetailUserPage(Model model, @PathVariable int id) {
+		User user = userService.get(id);
+		;
+		model.addAttribute("user", user);
+
+		return "detail-user";
+	}
+
+	@RequestMapping("/add-staff")
+	public String showAddStaffPage(Model model) {
+		User user = new User();
+		model.addAttribute("user", user);
+
+		List<Role> listRole = roleService.listAll();
+		listRole.remove(0);
+		listRole.remove(0);
+		model.addAttribute("listRole", listRole);
+
+		return "add-staff";
+	}
+
+	@RequestMapping(value = "/save-staff", method = RequestMethod.POST)
+	public String saveStaff(@Validated @ModelAttribute("user") User user, BindingResult result, Model model) {
+		List<User> listUser = userService.listAll();
+		boolean flag = false;
+		for (int i = 0; i < listUser.size(); i++) {
+			if (listUser.get(i).getEmail().equals(user.getEmail())) {
+				model.addAttribute("staffError", "Email đã tồn tại");
+				flag = true;
+			}
+		}
+		if (result.hasErrors() || flag == true) {
+			List<Role> listRole = roleService.listAll();
+			listRole.remove(0);
+			listRole.remove(0);
+			model.addAttribute("listRole", listRole);
+
+			return "add-staff";
+		}
+
+		int strength = 10; // work factor of bcrypt
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(strength, new SecureRandom());
+//			System.out.println(user.getPassword());
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword())); // password được đặt mặc định là 123456 khi
+																			// tạo nhân viên mới
+//			System.out.println(user.getPassword());
+
+		userService.save(user);
+
+		return "redirect:/admin";
+	}
+
+	@RequestMapping("admin/change-staffRole/{id}")
+	public String viewChangeStaffRole(Model model, @PathVariable int id) {
+		User user = userService.get(id);
+		model.addAttribute("user", user);
+		List<Role> listRole = roleService.listAll();
+		listRole.remove(0);
+		listRole.remove(0);
+		model.addAttribute("listRole", listRole);
+
+		return "change-staffRole";
+	}
+
+	@RequestMapping(value = "admin/save-roleChange", method = RequestMethod.POST)
+	public String saveStaffRoleChange(Model model, @RequestParam("editId") String id,
+			@RequestParam("role") String role) {
+
+		User user = userService.get(Long.parseLong(id));
+		user.setRole(roleService.get(Long.parseLong(role)));
+		userService.save(user);
+
+		return "redirect:/admin";
+	}
+
+	@RequestMapping("/delete-user/{id}")
+	public String deleteUser(@PathVariable(name = "id") int id) {
+
+		userService.delete(id);
+		return "redirect:/admin";
 	}
 
 	// ======CHỨC NĂNG CỦA NHÂN VIÊN KHO=====
@@ -470,9 +601,20 @@ public class AppController {
 			model.addAttribute("imgError", "Vui lòng chọn hình ảnh sản phẩm");
 		}
 
+		// Kiểm tra tên sản phẩm đã tồn tại
+		List<Product> listproducts = productService.listAll();
+		boolean titleExists = listproducts.stream().anyMatch(p -> p.getTitle().equals(product.getTitle()));
+		if (titleExists) {
+			model.addAttribute("titleExistsError", "Sản phẩm này đã tồn tại");
+		}
+
 		if (result.hasErrors()) {
 			List<Category> listCategory = categoryService.listAll();
 			model.addAttribute("listCategory", listCategory);
+			if (!id.equals("")) {
+				product.setId(Long.parseLong(id));
+				model.addAttribute("product", product);
+			}
 			return "add-product";
 		}
 
@@ -541,12 +683,116 @@ public class AppController {
 		return "redirect:/storehouse";
 	}
 
+	// Quản lý danh mục
+	@RequestMapping("/add-category")
+	public String showAddCategoryPage(Model model) {
+
+		Category category = new Category();
+		model.addAttribute("category", category);
+
+		return "add-category";
+	}
+
+	@RequestMapping(value = "/save-category", method = RequestMethod.POST)
+	public String saveCategory(@Validated @ModelAttribute("category") Category category, BindingResult result,
+			Model model, @RequestParam("editId") String id) {
+		List<Category> listCategory = categoryService.listAll();
+		boolean flag = false;
+		for (int i = 0; i < listCategory.size(); i++) {
+			if (listCategory.get(i).getName().equals(category.getName())) {
+				model.addAttribute("categoryError", "Danh mục đã tồn tại");
+				flag = true;
+			}
+		}
+
+		if (result.hasErrors() || flag == true) {
+			if (!id.equals("")) {
+				category.setId(Long.parseLong(id));
+				model.addAttribute("category", category);
+			}
+			return "add-category";
+		}
+
+		// Cập nhật danh mục
+		if (!id.equals("")) {
+
+			category.setId(Long.parseLong(id));
+
+		}
+
+		categoryService.save(category);
+
+		return "redirect:/storehouse";
+	}
+
+	@RequestMapping("/edit-category/{id}")
+	public String editCategory(Model model, @PathVariable(name = "id") int id) {
+		Category category = categoryService.get(id);
+		model.addAttribute("category", category);
+
+		return "add-category";
+	}
+
+	@RequestMapping("/delete-category/{id}")
+	public String deleteCategory(@PathVariable(name = "id") int id) {
+
+		categoryService.delete(id);
+		return "redirect:/storehouse";
+	}
+
 	// =====CHỨC NĂNG CỦA KẾ TOÁN=====
 	@RequestMapping("/accountant")
 
 	public String viewAccountantPage(Model model) {
+		List<Bill> bills = billService.listAll();
+		model.addAttribute("bills", bills);
+
+		// Lấy ra các sản phẩm trong từng bill
+		for (Bill bill : bills) {
+			List<BillDetails> billDetails = billDetailsService.listBillDetailsByBill(Math.toIntExact(bill.getId()));
+			model.addAttribute("billDetails" + bill.getId(), billDetails);
+		}
 
 		return "accountant";
+	}
+
+	// Thống kê doanh thu
+	@RequestMapping("/accountant/statistic")
+	public String viewstatisticProduct(Model model) {
+
+		return "statistic";
+	}
+
+	@RequestMapping(value = "/statistic-save", method = RequestMethod.POST)
+	public String statisticProduct(Model model, @RequestParam("period") String period) {
+		String unit = period.split(" ")[0];
+		int time = Integer.parseInt(period.split(" ")[1]);
+
+		Integer total = 0;
+		int year = Year.now().getValue();
+
+		switch (unit) {
+		case "year":
+			total = billService.statisticByYear(time);
+			break;
+		case "quarter":
+			total = billService.statisticByQuarter(year, time);
+			break;
+		case "month":
+
+			total = billService.statisticByMonth(year, time);
+			break;
+
+		default:
+			break;
+		}
+
+		total = total == null ? 0 : total;
+
+		model.addAttribute("total", total);
+		model.addAttribute("period", period);
+
+		return "statistic";
 	}
 
 	// Lấy ra số lượng sản phẩm đang có trong giỏ hàng

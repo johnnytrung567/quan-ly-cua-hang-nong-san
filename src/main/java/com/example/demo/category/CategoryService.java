@@ -15,10 +15,18 @@ public class CategoryService {
 	private CategoryRepository repo;
 	
 	public List<Category> listAll() {
-		return repo.findAll();
+		return repo.findAll(Sort.by("id").descending());
 	}
 	
 	public Category get(long id) {
 		return repo.findById(id).get();
+	}
+	
+	public void save(Category category) {
+		repo.save(category);
+	}
+	
+	public void delete(long id) {
+		repo.deleteById(id);
 	}
 }

@@ -22,6 +22,7 @@
 				<form class="form form_1 active" th:action="@{/login}" method="post" role="form">
 					<p th:if="${param.permit}" style="color: red;" class="alert alert-danger">Bạn cần đăng nhập.</p>
 					<p th:if="${param.fail}" style="color: red;" class="alert alert-danger">Email hoặc mật khẩu chưa đúng.</p>
+					<p th:if="${param.register}" style="color: green;" class="alert alert-success">Đăng ký thành công, hãy đăng nhập</p>
 					
 					<input type="text" class="fadeIn second" name="email" id="email" placeholder="Email">
 					<!-- <small style="color: red; display: block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small> -->
