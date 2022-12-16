@@ -22,6 +22,8 @@
 					<input type="email" class="fadeIn second" th:field="*{email}"
 						placeholder="Email" /> <small style="color: red; display: block"
 						th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+						<small style="color: red; display: block"
+						th:text="${emailExistsError}"></small>
 					<input type="tel" class="fadeIn second" th:field="*{phone}"
 						placeholder="Số điện thoại" /> <small
 						style="color: red; display: block"

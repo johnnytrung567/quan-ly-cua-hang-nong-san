@@ -35,6 +35,7 @@
 			<div class="col-lg-4 order-md-2 mb-4">
 				<h2 class="mb-3 font-weight-bold">Thông tin mua hàng</h2>
 				<form th:action="@{/checkout-save}" th:object="${bill}" method="post">
+					<input type="hidden" name="total" th:value="${total}" >
 					<div class="form-group">
 						<label for="name">Họ và tên:</label> <input type="text"
 							class="form-control" id="receiver" th:field="*{receiver}">

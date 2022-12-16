@@ -35,7 +35,7 @@
 				<input type="hidden" name="editId" th:value="${product.id}">
 				<div class="custom-file mb-3">
 					<input type="file" class="custom-file-input" id="customFile"
-						name="imageFile" accept="image/*" th:value="${product.image}">
+						name="imageFile" accept="image/*" th:value="${product.image} or ${editId}">
 					<label class="custom-file-label" for="customFile">Chọn hình
 						ảnh</label> <small style="color: red; display: block"
 						th:text="${imgError}"></small>
@@ -46,6 +46,8 @@
 						th:field="*{title}"> <small
 						style="color: red; display: block"
 						th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></small>
+						<small style="color: red; display: block"
+						th:text="${titleExistsError}"></small>
 				</div>
 				<div class="form-group">
 					<label for="price">Giá sản phẩm:</label> <input type="number"
@@ -68,12 +70,6 @@
 						<option th:value="${category.id}" th:text="${category.name}"></option>
 					</th:block>
 				</select>
-				<!-- <div class="form-group">
-					<label for="description">Description:</label>
-					<textarea class="form-control" rows="5" id="description"
-						th:field="*{description}"></textarea>
-						<small style="color: red; display: block" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></small>
-				</div> -->
 				<div class="form-group">
 					<label for="description">Description:</label>
 					<textarea class="form-control" rows="5" id="description"

@@ -1,4 +1,4 @@
-package com.example.demo.billDetail;
+package com.example.demo.billDetails;
 
 import java.util.List;
 
@@ -8,20 +8,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class BillDetailService {
+public class BillDetailsService {
 
 	@Autowired
-	private BillDetailRepository repo;
+	private BillDetailsRepository repo;
 	
-	public List<BillDetail> listAll() {
+	public List<BillDetails> listAll() {
 		return repo.findAll();
 	}
+	
+	public List<BillDetails> listBillDetailsByBill(int bill) {
+		return repo.listBillDetailsByBill(bill);
+	}
 
-	public void save(BillDetail product) {
-		repo.save(product);
+	public void save(BillDetails billDetails) {
+		repo.save(billDetails);
 	}
 	
-	public BillDetail get(long id) {
+	public BillDetails get(long id) {
 		return repo.findById(id).get();
 	}
 	

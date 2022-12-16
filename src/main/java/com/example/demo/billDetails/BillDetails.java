@@ -1,4 +1,4 @@
-package com.example.demo.billDetail;
+package com.example.demo.billDetails;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +12,7 @@ import com.example.demo.bill.Bill;
 import com.example.demo.product.Product;
 
 @Entity
-public class BillDetail {
+public class BillDetails {
 	private Long id;
 	
 	private int quantity;
@@ -21,11 +21,11 @@ public class BillDetail {
 	
 	private Bill bill;
 	
-	public BillDetail() {
+	public BillDetails() {
 		super();
 	}
 
-	public BillDetail(Long id, int quantity, Product product, Bill bill) {
+	public BillDetails(Long id, int quantity, Product product, Bill bill) {
 		super();
 		this.id = id;
 		this.quantity = quantity;

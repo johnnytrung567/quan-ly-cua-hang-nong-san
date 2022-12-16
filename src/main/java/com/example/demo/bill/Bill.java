@@ -1,5 +1,7 @@
 package com.example.demo.bill;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,13 +29,15 @@ public class Bill {
 	
 	private User customer;
 	
+	private Timestamp createdAt = new Timestamp(System.currentTimeMillis());
+	
 	public Bill() {
 		super();
 	}
 
 	public Bill(Long id, @NotEmpty(message = "Vui lòng nhập họ tên người nhận") String receiver,
 			@NotEmpty(message = "Vui lòng nhập số điện thoại người nhận") String phone,
-			@NotEmpty(message = "Vui lòng nhập địa chỉ người nhận") String address, int total, User customer) {
+			@NotEmpty(message = "Vui lòng nhập địa chỉ người nhận") String address, int total, User customer, Timestamp createdAt) {
 		super();
 		this.id = id;
 		this.receiver = receiver;
@@ -41,6 +45,7 @@ public class Bill {
 		this.address = address;
 		this.total = total;
 		this.customer = customer;
+		this.createdAt = createdAt;
 	}
 
 
@@ -94,6 +99,14 @@ public class Bill {
 
 	public void setCustomer(User customer) {
 		this.customer = customer;
+	}
+
+	public Timestamp getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
 	}
 
 }
